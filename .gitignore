@@ -22,7 +22,8 @@
 *.userprefs
 *.pidb
 *.booproj
-*.svd
+*.svd   
+.vs/
 
 # OS generated files
 .DS_Store

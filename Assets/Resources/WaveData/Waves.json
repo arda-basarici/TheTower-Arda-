@@ -1,0 +1,27 @@
+[
+    {
+        "wave": 1,
+        "enemies": [
+            {
+                "enemy": "Enemy1",
+                "minAmount": 10,
+                "maxAmount": 12,
+                "spawnTime": 1
+            },
+            {
+                "enemy": "Enemy2",
+                "minAmount": 1,
+                "maxAmount": 1,
+                "spawnTime": 2
+            },
+            {
+                "enemy": "Enemy1",
+                "minAmount": 3,
+                "maxAmount": 5,
+                "spawnTime": 1
+            }
+            
+
+        ]
+    }
+]
