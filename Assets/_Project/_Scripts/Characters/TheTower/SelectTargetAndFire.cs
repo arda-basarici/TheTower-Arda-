@@ -7,14 +7,16 @@ namespace Game
         [SerializeField]
         private Rigidbody2D projectile; 
         private float fireRate;
-        private Transform target;   
-        private float nextFireTime = 0f;       
+        private Transform target;
+        private float nextFireTime = 0f;
+
+        
         private StatManager statManager;
 
         protected void Awake()
         {
             statManager = GetComponent<StatManager>();
-            fireRate = statManager.GetStat(StatType.FireRate).CurrentValue; 
+            fireRate = statManager.GetCurrentValue(StatType.FireRate); 
         }
 
         protected void OnEnable()
@@ -51,6 +53,7 @@ namespace Game
             {   
                 if (target == null) return;
                 Rigidbody2D projectileInstance = Instantiate(projectile, transform.position, Quaternion.identity);
+                projectileInstance.gameObject.GetComponent<StatManager>().SetStat(StatType.Damage, statManager.GetCurrentValue(StatType.Damage));
                 Vector2 direction = (target.position - transform.position).normalized;
                 projectileInstance.linearVelocity = direction * 10f;
                 nextFireTime = Time.time + 1f / fireRate;
@@ -60,8 +63,7 @@ namespace Game
         protected void Update()
         {
             SelectTarget(); 
-            Fire();
-                
+            Fire();    
         }   
     }
 }

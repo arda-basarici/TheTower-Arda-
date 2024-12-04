@@ -18,8 +18,9 @@ namespace Game
         {
             statManager.DecreaseStat(StatType.Health, damage);
 
-            if (statManager.GetStat(StatType.Health).CurrentValue <= 0)
+            if (statManager.GetCurrentValue(StatType.Health) <= 0)
             {
+
                 Die();
             }
         }

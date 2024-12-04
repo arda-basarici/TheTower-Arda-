@@ -12,7 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea3937b9d80ce3d40a63b0fa5ec1253c, type: 3}
   m_Name: Projectile1
   m_EditorClassIdentifier: 
-  health: 0
-  damage: 2
-  speed: 0
-  fireRate: 0
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  baseValues:
+    m_Keys: 01000000
+    m_Values:
+    - 2

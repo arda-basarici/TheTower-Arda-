@@ -17,17 +17,17 @@ namespace Game
         {       
             Debug.Log("EnemyMovement Awake");
             rb = GetComponent<Rigidbody2D>();
-            speed = gameObject.GetComponent<StatManager>().GetStat(StatType.Speed).CurrentValue;
+            speed = gameObject.GetComponent<StatManager>().GetCurrentValue(StatType.Speed);
         }
 
         private void OnEnable()
         {
-            gameObject.GetComponent<StatManager>().GetStat(StatType.Speed).RegisterObserver(this);
+            gameObject.GetComponent<StatManager>().RegisterObserver(StatType.Speed, this);
         }
 
         private void OnDisable()
         {
-            gameObject.GetComponent<StatManager>().GetStat(StatType.Speed).UnregisterObserver(this);
+            gameObject.GetComponent<StatManager>().UnregisterObserver(StatType.Speed,this);
         }
 
         private void Move()

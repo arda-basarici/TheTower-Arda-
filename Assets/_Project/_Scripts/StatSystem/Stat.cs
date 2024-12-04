@@ -1,12 +1,16 @@
+using System;
 using System.Collections.Generic;
 
 namespace Game
 {
     public abstract class Stat
     {
-        private List<IStatObserver> observers = new List<IStatObserver>();
+
+        private readonly List<IStatObserver> observers = new List<IStatObserver>();
+        public abstract StatType Type { get; }
         public float BaseValue { get; protected set; }
-        public float CurrentValue { get; protected set; }
+        public float CurrentValue;
+
 
         protected Stat(float baseValue)
         {
@@ -42,6 +46,12 @@ namespace Game
         public virtual void DecreaseStat(float value)
         {
             CurrentValue -= value;
+            NotifyObservers();
+        }
+
+        public virtual void SetStat(float value)
+        {
+            CurrentValue = value;
             NotifyObservers();
         }
     }

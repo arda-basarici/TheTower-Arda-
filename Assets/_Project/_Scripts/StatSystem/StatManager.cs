@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor.U2D.Aseprite;
 
 namespace Game
 {
@@ -17,17 +16,20 @@ namespace Game
         }
 
         private void InitializeStats()
-        {   
-            //Debug.Log("Initializing stats");
+        {
             if (statData != null)
             {
-                stats.Add(StatType.Health, new HealthStat(statData.health));
-                stats.Add(StatType.Damage, new DamageStat(statData.damage));
-                stats.Add(StatType.FireRate, new FireRateStat(statData.fireRate));
-                stats.Add(StatType.Speed, new SpeedStat(statData.speed));
+                foreach (StatType statType in System.Enum.GetValues(typeof(StatType)))
+                {
+                    Stat stat = StatFactory.GetStat(statType, statData.GetBaseValue(statType));
+                    if (stat != null)
+                    {
+                        stats.Add(statType, stat);
+                    }
+                }
             }
         }
-        public Stat GetStat(StatType statType)
+        private Stat GetStat(StatType statType)
         {
             if (stats.TryGetValue(statType, out Stat stat))
             {
@@ -59,6 +61,18 @@ namespace Game
         {
             Stat stat = GetStat(statType);
             stat?.DecreaseStat(value);
+        }
+
+        public void SetStat(StatType statType, float value)
+        {
+            Stat stat = GetStat(statType);
+            stat.CurrentValue = value;  
+            
+        }
+
+        public float GetCurrentValue(StatType statType)
+        {
+            return GetStat(statType).CurrentValue;
         }
     }
 }

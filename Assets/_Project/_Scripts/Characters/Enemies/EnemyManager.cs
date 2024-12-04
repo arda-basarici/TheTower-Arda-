@@ -48,11 +48,6 @@ namespace Game
             return closestEnemy;
         }       
 
-        public static void SpawnEnemy()
-        {
-            
-        }
-
         public static void Clear()
         {
             enemies.Clear();
