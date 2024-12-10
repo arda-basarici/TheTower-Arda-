@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Game
 {
     [RequireComponent(typeof(StatManager))]
-    public class Damagable : MonoBehaviour
+    public class Damagable : MonoBehaviour, IPoolable
     {
         private StatManager statManager;
         private Enemy enemy;
@@ -28,7 +28,8 @@ namespace Game
 
         protected void Die()
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            PoolManager.ReturnToPool(gameObject);
             if (enemy != null)
             {
                 enemy.OnDeath();

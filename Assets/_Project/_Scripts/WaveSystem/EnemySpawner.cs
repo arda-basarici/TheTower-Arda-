@@ -47,7 +47,8 @@ namespace Game
                 return;
             }
 
-            GameObject enemyObject = Instantiate(enemyDatum.prefab, spawnInfo.Position, Quaternion.identity, spawnParent);
+            //GameObject enemyObject = Instantiate(enemyDatum.prefab, spawnInfo.Position, Quaternion.identity, spawnParent);
+            GameObject enemyObject = PoolManager.Instantiate(enemyDatum.prefab, spawnInfo.Position, Quaternion.identity);
             Enemy enemy = enemyObject.GetComponent<Enemy>();
 
             enemy.enemyType = spawnInfo.EnemyType;
