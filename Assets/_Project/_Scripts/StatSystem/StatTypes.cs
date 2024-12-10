@@ -6,5 +6,6 @@ namespace Game
         Damage,
         FireRate,
         Speed,
+        Range
     }
 }

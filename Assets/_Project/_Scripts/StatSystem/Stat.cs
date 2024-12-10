@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Game
@@ -35,7 +34,7 @@ namespace Game
         {
             foreach (var observer in observers)
             {
-                observer.OnStatChange(CurrentValue);
+                observer.OnStatChange(Type,CurrentValue);
             }
         }
         public virtual void IncreaseStat(float value)

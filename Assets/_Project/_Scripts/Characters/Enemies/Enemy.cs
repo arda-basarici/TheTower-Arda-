@@ -5,13 +5,13 @@ namespace Game
     public class Enemy : MonoBehaviour
     {   
 
-        public EnemyType enemyType; 
-        void Start()
+        public EnemyType enemyType;
+        protected void Start()
         {
             EnemyManager.AddEnemy(this);
         }
 
-        private void OnDestroy()
+        protected void OnDestroy()
         {
             EnemyManager.RemoveEnemy(this);
         }

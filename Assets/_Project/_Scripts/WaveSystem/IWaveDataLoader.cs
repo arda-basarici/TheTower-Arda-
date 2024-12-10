@@ -4,6 +4,6 @@ namespace Game
 {
     public interface IWaveDataLoader
     {
-        List<WaveData> LoadWaveData();
+        List<WaveData> LoadWaveDataAndReturn();
     }
 }

@@ -8,9 +8,9 @@ namespace Game
         [SerializeField]
         private StatData statData;
 
-        private Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat>();
+        private readonly Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat>();
 
-        private void Awake()
+        protected void Awake()
         {
             InitializeStats();
         }

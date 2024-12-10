@@ -15,8 +15,7 @@ namespace Game
 
         public void OnEnter()
         {
-            EnemyManager.Clear();
-            WaveManager.Initialize(new JsonWaveDataLoader(), new WaveDataProcessor(), AssetLoader.LoadAsset<GameObject>(ResourcePaths.EnemySpawnerPrefab));
+            GameFactory.InitilizeAllSystemsForGamePlayState();
         }
         public void OnExit()
         {

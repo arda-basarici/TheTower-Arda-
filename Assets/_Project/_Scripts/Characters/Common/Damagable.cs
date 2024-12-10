@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Scripting.APIUpdating;
 
 namespace Game
 {
@@ -9,7 +7,7 @@ namespace Game
     {
         private StatManager statManager;
 
-        private void Awake()
+        protected void Awake()
         {
             statManager = GetComponent<StatManager>();
         }

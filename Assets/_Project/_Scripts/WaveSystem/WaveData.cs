@@ -1,21 +1,60 @@
 using System.Collections.Generic;
-using System;
 using UnityEngine;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 namespace Game
 {
-    [Serializable]
-    public class WaveData
+    [CreateAssetMenu(fileName = "WaveData", menuName = "Scriptable Objects/WaveData")]
+    public class WaveData : ScriptableObject
     {
-        public int WaveNumber { get; private set; }
-        public List<EnemyBulk> EnemyBulks { get; private set; }
-        public List<SpawnInfo> EnemiesToSpawn { get; private set; }
+        [BoxGroup("Wave Information")]
+        [SerializeField]
+        private int _waveNumber;
 
-        public WaveData(int waveNumber, List<EnemyBulk> enemyBulks, List<SpawnInfo> enemiesToSpawn)
+
+        [BoxGroup("Enemy Bulks")]
+        [TableList]
+        [SerializeField]
+        private List<EnemyBulk> _enemyBulks = new List<EnemyBulk>();
+
+
+        public List<SpawnInfo> EnemiesToSpawn;
+
+        public int WaveNumber => _waveNumber;
+
+        public void AddEnemyBulk(EnemyBulk enemyBulk)
         {
-            WaveNumber = waveNumber;
-            EnemyBulks = enemyBulks;
-            EnemiesToSpawn = enemiesToSpawn;
+            if (_enemyBulks == null)
+            {
+                Debug.LogError("EnemyBulks list is null");
+                return;
+            }
+            _enemyBulks.Add(enemyBulk);
         }
+
+        public bool IsValid()
+        {
+            return _enemyBulks.Count > 0 && _waveNumber > 0;
+        }
+
+        public void GenerateEnemiesToSpawn()
+        {
+            if (!IsValid())
+            {
+                Debug.LogWarning("WaveData is not valid");
+                return;
+            }
+            EnemiesToSpawn = new List<SpawnInfo>();
+            foreach (var enemyBulk in _enemyBulks)
+            {
+                enemyBulk.GenerateEnemiesToSpawn();
+                EnemiesToSpawn.AddRange(enemyBulk.EnemiesToSpawn);
+            }
+
+
+        }
+
+
     }
 }

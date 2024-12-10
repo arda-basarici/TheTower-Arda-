@@ -39,6 +39,7 @@ namespace Game
 
         private void SpawnEnemy(SpawnInfo spawnInfo)
         {
+            
             EnemyData enemyDatum = enemyData.Find(e => e.enemyName == spawnInfo.EnemyType.ToString());
             if (enemyDatum == null)
             {

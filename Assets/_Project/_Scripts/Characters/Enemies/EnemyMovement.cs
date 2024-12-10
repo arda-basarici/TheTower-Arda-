@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Scripting.APIUpdating;
 
 namespace Game
 {
@@ -13,19 +11,18 @@ namespace Game
         private Rigidbody2D rb;
 
 
-        private void Awake()
+        protected void Awake()
         {       
-            Debug.Log("EnemyMovement Awake");
             rb = GetComponent<Rigidbody2D>();
             speed = gameObject.GetComponent<StatManager>().GetCurrentValue(StatType.Speed);
         }
 
-        private void OnEnable()
+        protected void OnEnable()
         {
             gameObject.GetComponent<StatManager>().RegisterObserver(StatType.Speed, this);
         }
 
-        private void OnDisable()
+        protected void OnDisable()
         {
             gameObject.GetComponent<StatManager>().UnregisterObserver(StatType.Speed,this);
         }
@@ -37,13 +34,16 @@ namespace Game
 
         }
 
-        public void OnStatChange(float value)
+        public void OnStatChange(StatType type, float value)
         {
-            speed = value;
+            if (type == StatType.Speed)
+            {
+                speed = value;
+            }
         }
 
 
-        void Update()
+        protected void Update()
         {
             Move();
         }

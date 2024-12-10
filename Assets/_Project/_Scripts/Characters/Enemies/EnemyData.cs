@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 namespace Game
@@ -7,7 +6,10 @@ namespace Game
     public class EnemyData : ScriptableObject
     {
         public string enemyName;
+        public int inGameCurrReward;
+        public int PersistentCurrReward;
         public StatData stats;
         public GameObject prefab;
+        
     }
 }
