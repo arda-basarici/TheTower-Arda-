@@ -44,7 +44,6 @@ namespace Game
                     closestEnemy = enemy;
                 }
             }
-
             return closestEnemy;
         }       
 

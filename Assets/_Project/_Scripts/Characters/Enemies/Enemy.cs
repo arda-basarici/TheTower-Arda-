@@ -6,6 +6,8 @@ namespace Game
     {   
 
         public EnemyType enemyType;
+        public int inGameCurrReward;
+        public int persistentCurrReward;
         protected void Start()
         {
             EnemyManager.AddEnemy(this);
@@ -15,6 +17,12 @@ namespace Game
         {
             EnemyManager.RemoveEnemy(this);
         }
-    
+
+        public void OnDeath()
+        {
+            Wallet.AddInGameCurrency(inGameCurrReward);
+            Wallet.AddPersistentCurrency(persistentCurrReward);
+        }
+
     }
 }

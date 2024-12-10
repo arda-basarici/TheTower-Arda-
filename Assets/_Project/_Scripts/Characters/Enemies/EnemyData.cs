@@ -7,7 +7,7 @@ namespace Game
     {
         public string enemyName;
         public int inGameCurrReward;
-        public int PersistentCurrReward;
+        public int persistentCurrReward;
         public StatData stats;
         public GameObject prefab;
         

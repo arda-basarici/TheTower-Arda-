@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: SmallRed
   m_EditorClassIdentifier: 
   enemyName: smallRed
+  inGameCurrReward: 1
+  persistentCurrReward: 0
   stats: {fileID: 11400000, guid: f5a0193d57d511644ae1fa576efa9b92, type: 2}
   prefab: {fileID: 6636820080602682282, guid: 604ce2b1da203ca4b9a0c78677e575ad, type: 3}

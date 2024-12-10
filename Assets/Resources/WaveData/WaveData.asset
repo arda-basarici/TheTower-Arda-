@@ -12,15 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17118cd5c9ff34948be2ec7e3b58db4c, type: 3}
   m_Name: WaveData
   m_EditorClassIdentifier: 
-  waveNumber: 1
-  enemyBulks:
-  - EnemyType: 0
-    minAmount: 8
-    maxAmount: 10
-    minSpawnTime: 0.8
-    maxSpawnTime: 1.2
-  - EnemyType: 1
-    minAmount: 1
-    maxAmount: 1
-    minSpawnTime: 2
-    maxSpawnTime: 2
+  _waveNumber: 1
+  _enemyBulks:
+  - _enemyType: 0
+    _minAmount: 10
+    _maxAmount: 10
+    _minSpawnTime: 1
+    _maxSpawnTime: 1.2

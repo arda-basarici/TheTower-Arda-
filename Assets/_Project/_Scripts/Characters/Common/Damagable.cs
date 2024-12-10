@@ -6,10 +6,13 @@ namespace Game
     public class Damagable : MonoBehaviour
     {
         private StatManager statManager;
+        private Enemy enemy;
+
 
         protected void Awake()
         {
             statManager = GetComponent<StatManager>();
+            enemy = GetComponent<Enemy>();
         }
 
         public void TakeDamage(float damage)
@@ -26,6 +29,10 @@ namespace Game
         protected void Die()
         {
             Destroy(gameObject);
+            if (enemy != null)
+            {
+                enemy.OnDeath();
+            }
         }
     }
 }

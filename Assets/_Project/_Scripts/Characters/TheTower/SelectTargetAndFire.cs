@@ -19,10 +19,15 @@ namespace Game
         protected void Awake()
         {
             statManager = GetComponent<StatManager>();
+
+
+        }
+
+        protected void Start()
+        {
             fireRate = statManager.GetCurrentValue(StatType.FireRate);
             range = statManager.GetCurrentValue(StatType.Range);
             damage = statManager.GetCurrentValue(StatType.Damage);
-
         }
         #endregion
 
@@ -64,6 +69,8 @@ namespace Game
         private void SelectTarget()
         {
             var closestEnemy = EnemyManager.GetClosestEnemy(transform.position);
+            Debug.Log(Vector2.Distance(transform.position, closestEnemy.transform.position));
+            Debug.Log(range);
             if (closestEnemy != null && range >= Vector2.Distance(transform.position, closestEnemy.transform.position))
             {
                 target = closestEnemy.transform;
@@ -91,7 +98,7 @@ namespace Game
 
         protected void Update()
         {
-            SelectTarget(); 
+            SelectTarget();
             Fire();    
         }
         #endregion

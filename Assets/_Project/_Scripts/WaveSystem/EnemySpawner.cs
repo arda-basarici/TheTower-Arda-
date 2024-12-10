@@ -51,6 +51,8 @@ namespace Game
             Enemy enemy = enemyObject.GetComponent<Enemy>();
 
             enemy.enemyType = spawnInfo.EnemyType;
+            enemy.inGameCurrReward = enemyDatum.inGameCurrReward;
+            enemy.persistentCurrReward = enemyDatum.persistentCurrReward;
 
         }
     }

@@ -15,7 +15,6 @@ namespace Game
         {
 
             WaveDataList = waveDataLoader.LoadWaveDataAndReturn();
-            Debug.Log("WaveDataList.Count: " + WaveDataList.Count);
             WaveDataList.ForEach(wave => {
                 wave.GenerateEnemiesToSpawn();
             });
