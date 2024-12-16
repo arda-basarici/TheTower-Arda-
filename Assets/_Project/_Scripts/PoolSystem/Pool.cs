@@ -17,7 +17,6 @@ namespace Game
 
         public float LastUsedTime { get; private set; }
         private const int MaxPoolSize = 20; // Maximum number of objects in the pool, adjust as needed. dependency injection can be use  to set this value dynamically.
-        private const int MinPoolSize = 3; // Minimum number of objects in the pool (for shrinking process), adjust as needed. dependency injection can be use  to set this value dynamically.
         
         public Pool(GameObject prefab, Transform parent, int initialSize = 0)
         {
@@ -46,10 +45,15 @@ namespace Game
             objects.Enqueue(obj);
         }
 
-        public GameObject GetObject(Vector3 position, Quaternion rotation)
+        public GameObject GetObject(Vector3 position, Quaternion rotation, Transform SpawnParent = null)
         {
             NullCheck();
             GameObject obj = objects.Dequeue();
+            if(SpawnParent != null)
+            {
+                Debug.Log("Parent is not null 3");
+                obj.transform.SetParent(SpawnParent);
+            }
             obj.transform.SetPositionAndRotation(position, rotation);
             obj.SetActive(true);
             return obj;
@@ -98,6 +102,7 @@ namespace Game
         public void RemoveObject(GameObject obj)
         {
             obj.SetActive(false);
+            obj.transform.SetParent(parent);
             objects.Enqueue(obj);
         }
     }

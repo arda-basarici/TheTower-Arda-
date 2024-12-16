@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Game
 {
     [RequireComponent(typeof(StatManager))]
-    public class Damagable : MonoBehaviour, IPoolable
+    public class Damagable : MonoBehaviour
     {
         private StatManager statManager;
         private Enemy enemy;
@@ -21,7 +21,6 @@ namespace Game
 
             if (statManager.GetCurrentValue(StatType.Health) <= 0)
             {
-
                 Die();
             }
         }

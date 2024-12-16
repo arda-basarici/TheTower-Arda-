@@ -1,4 +1,3 @@
-using UnityEngine;
 
 namespace Game
 {
@@ -8,17 +7,17 @@ namespace Game
         /// <summary>
         /// Called before the object is reused from the pool.
         /// </summary>
-        void OnSpawn() { }
+        void OnSpawn();
 
         /// <summary>
         /// Called when the object is spawned from the pool.
         /// </summary>
-        void OnReturn() { }
+        void OnReturn();
 
 
         /// <summary>
         /// Called when the object is returned to the pool.
         /// </summary>
-        void ResetForPooling() { }
+        void ResetForPooling();
     }
 }

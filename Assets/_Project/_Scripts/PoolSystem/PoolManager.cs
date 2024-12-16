@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -90,16 +90,28 @@ namespace Game
         }
 
 
-        public static GameObject Instantiate(GameObject prefab, Vector3 position, Quaternion rotation)
+        public static GameObject Instantiate(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null)
         {
             lock (poolLock)
             {
+                if (parent != null)
+                {
+                    Debug.Log("Parent is not null 1");
+                }
                 string prefabName = prefab.name;
-
+                GameObject obj = null;
+                List<IPoolable> poolables;
                 // Check the last-used pool
                 if (LastUsedPool != null && pools.TryGetValue(prefabName, out var cachedPool) && cachedPool == LastUsedPool)
                 {
-                    return InstantiateFromPool(cachedPool, position, rotation);
+                    obj = InstantiateFromPool(cachedPool, position, rotation, parent);
+                    poolables = obj.GetComponents<IPoolable>().ToList();
+                    foreach (var poolable in poolables)
+                    {
+                        poolable.ResetForPooling();
+                        poolable.OnSpawn();
+                    }
+                    return obj;
                 }
 
                 // Check the recent pools cache
@@ -108,7 +120,14 @@ namespace Game
                     if (name == prefabName)
                     {
                         LastUsedPool = pool;
-                        return InstantiateFromPool(pool, position, rotation);
+                        obj = InstantiateFromPool(pool, position, rotation, parent);
+                        poolables = obj.GetComponents<IPoolable>().ToList();
+                        foreach (var poolable in poolables)
+                        {
+                            poolable.ResetForPooling();
+                            poolable.OnSpawn();
+                        }
+                        return obj;
                     }
                 }
 
@@ -116,8 +135,8 @@ namespace Game
                 {
                     CreatePool(prefab);
                 }
-                GameObject obj = pools[prefabName].GetObject(position, rotation);
-                var poolables = obj.GetComponents<IPoolable>();
+                obj = pools[prefabName].GetObject(position, rotation, parent);
+                poolables = obj.GetComponents<IPoolable>().ToList();
                 foreach (var poolable in poolables)
                 {
                     poolable.ResetForPooling();
@@ -129,9 +148,13 @@ namespace Game
             }
         }
 
-        private static GameObject InstantiateFromPool(Pool pool, Vector3 position, Quaternion rotation)
+        private static GameObject InstantiateFromPool(Pool pool, Vector3 position, Quaternion rotation, Transform parent = null)
         {
-            GameObject obj = pool.GetObject(position, rotation);
+            if (parent != null)
+            {
+                Debug.Log("Parent is not null 2");
+            }
+            GameObject obj = pool.GetObject(position, rotation, parent);
             var poolables = obj.GetComponents<IPoolable>();
             foreach (var poolable in poolables)
             {

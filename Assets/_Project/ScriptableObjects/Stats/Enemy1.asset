@@ -22,8 +22,9 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   baseValues:
-    m_Keys: 000000000300000001000000
+    m_Keys: 00000000030000000100000002000000
     m_Values:
     - 1
-    - 1
     - 2
+    - 2
+    - 1

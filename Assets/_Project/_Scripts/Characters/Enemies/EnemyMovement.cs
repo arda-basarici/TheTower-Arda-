@@ -4,7 +4,7 @@ namespace Game
 {
     [RequireComponent(typeof(StatManager))]
     [RequireComponent(typeof(Rigidbody2D))]
-    public class EnemyMovement : MonoBehaviour, IStatObserver, IPoolable
+    public class EnemyMovement : MonoBehaviour, IStatObserver
     {
         //private Transform target;
         private float speed = 0f;

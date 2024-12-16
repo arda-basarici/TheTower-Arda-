@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Game
@@ -6,7 +7,14 @@ namespace Game
     {
         protected void Start()
         {
-            GameStateMachine.ChangeState(GameFactory.GamePlayState);
+            //StartCoroutine(DelayedStart());
+            GameFactory.InitilizeAllSystemsForGamePlayState();
+        }
+
+        private IEnumerator DelayedStart()
+        {
+          yield return new WaitForSeconds(2);
+           
         }
         protected void Update()
         {

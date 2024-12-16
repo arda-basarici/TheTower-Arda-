@@ -19,18 +19,5 @@ namespace Game
             return 0f;
         }
 
-        [Button(ButtonSizes.Large, Name = "Add Stat")]
-        private void AddStat(StatType statType, float value)
-        {
-            if (!baseValues.ContainsKey(statType))
-            {
-                baseValues.Add(statType, value);
-            }
-            else
-            {
-                Debug.LogWarning($"Stat {statType} already exists in the dictionary.");
-            }
-        }
-
     }
 }

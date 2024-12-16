@@ -2,21 +2,37 @@ using UnityEngine;
 
 namespace Game
 {
-    public class Enemy : MonoBehaviour
-    {   
+    public class Enemy : MonoBehaviour, IPoolable
+    {
 
         public EnemyType enemyType;
         public int inGameCurrReward;
         public int persistentCurrReward;
-        protected void Start()
+        //protected void Start()
+        //{
+        //    EnemyManager.AddEnemy(this);
+        //}
+
+        //protected void OnDestroy()
+        //{
+        //    EnemyManager.RemoveEnemy(this);
+        //}
+
+        public void OnSpawn()
         {
             EnemyManager.AddEnemy(this);
         }
 
-        protected void OnDestroy()
+        public void OnReturn()
         {
             EnemyManager.RemoveEnemy(this);
         }
+
+        public void ResetForPooling()
+        {
+        }
+
+
 
         public void OnDeath()
         {

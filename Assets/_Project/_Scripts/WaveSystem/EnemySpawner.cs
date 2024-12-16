@@ -7,15 +7,18 @@ namespace Game
     public class EnemySpawner : MonoBehaviour
     {
         private List<EnemyData> enemyData; 
-        [SerializeField] private Transform spawnParent;         
+
+        [SerializeField] 
+        private Transform spawnParent;         
 
         private Coroutine spawnRoutine;
 
         public void Awake()
         {
             enemyData = new List<EnemyData>(AssetLoader.LoadAll<EnemyData>(ResourcePaths.EnemyData));
+            spawnParent = ReferenceResolver.Get<Transform>(ReferenceKeys.EnemyParent);
         }
-        
+
 
         public void StartWave(List<SpawnInfo> enemiesToSpawn)
         {
@@ -48,7 +51,7 @@ namespace Game
             }
 
             //GameObject enemyObject = Instantiate(enemyDatum.prefab, spawnInfo.Position, Quaternion.identity, spawnParent);
-            GameObject enemyObject = PoolManager.Instantiate(enemyDatum.prefab, spawnInfo.Position, Quaternion.identity);
+            GameObject enemyObject = PoolManager.Instantiate(enemyDatum.prefab, spawnInfo.Position, Quaternion.identity, spawnParent);
             Enemy enemy = enemyObject.GetComponent<Enemy>();
 
             enemy.enemyType = spawnInfo.EnemyType;

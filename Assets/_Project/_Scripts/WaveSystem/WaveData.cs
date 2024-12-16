@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 
 namespace Game
 {
@@ -17,7 +16,7 @@ namespace Game
         [TableList]
         [SerializeField]
         private List<EnemyBulk> _enemyBulks = new List<EnemyBulk>();
-
+       
 
         public List<SpawnInfo> EnemiesToSpawn;
 
