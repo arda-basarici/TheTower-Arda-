@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Game
@@ -17,9 +18,20 @@ namespace Game
             _handler.Save(key, data);
         }
 
-        public static T Load<T>(string key)
+        public static T LoadWithAutoMigration<T>(string key, int targetVersion, Func<T, T> manualMigration = null) where T : class, new()
         {
-            return _handler.Exists(key) ? _handler.Load<T>(key) : default;
+            T data = null;
+            try
+            {
+                data = _handler.Exists(key) ? _handler.Load<T>(key) : new T();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to load data for key '{key}': {e.Message}");
+            }
+            if (data == null) data = new T(); 
+            data = AutoMigration.MigrateMissingFields(data, targetVersion);
+            return data;
         }
 
         public static bool Exists(string key) => _handler.Exists(key);

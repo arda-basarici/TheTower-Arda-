@@ -15,13 +15,7 @@ namespace Game
         public static void InitilizeSessionSystems()
         {
             // save , analytics etc etc
-#if UNITY_WEBGL
-        SaveManager.Initialize(new LocalStorageHandler());
-#elif UNITY_EDITOR || UNITY_STANDALONE
-            SaveManager.Initialize(new JsonFileHandler());
-#elif UNITY_ANDROID || UNITY_IOS
-        SaveManager.Initialize(new PlayerPrefsHandler());
-#endif
+            SaveManager.Initialize(SaveHandlerFactory.CreateSaveHandler());
         }
 
         private static void InitilizeWaveSystem()

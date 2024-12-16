@@ -1,7 +1,20 @@
 using System;
+using JetBrains.Annotations;
 
-[Serializable]
-public class WaveSystemData
+namespace Game
 {
-    public int currentWave = 1;
+    [Serializable]
+    public class WaveSystemData : IData
+    {
+        public int currentWave = 1;
+
+        public const int currentVersion = Versions.WaveSystemData;
+        public int Version { get; set; } = currentVersion;
+
+        public WaveSystemData()
+        {
+            Version = Versions.WaveSystemData;
+            currentWave = 1;
+        }
+    }
 }
