@@ -7,6 +7,7 @@ namespace Game
     {
         protected void Start()
         {
+            GameFactory.InitilizeSessionSystems(); 
             GameFactory.InitilizeAllSystemsForGamePlayState();
         }
 
