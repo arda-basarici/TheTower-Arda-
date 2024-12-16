@@ -22,13 +22,11 @@ namespace Game
                 return;
             }
             ReferenceResolver.Register(referenceKey, gameObject);
-            Debug.Log($"Registered '{referenceKey}' in ReferenceResolver.");
         }
 
         protected void OnDestroy()
         {
             ReferenceResolver.Unregister(referenceKey);
-            Debug.Log($"Unregistered '{referenceKey}' from ReferenceResolver.");
         }
 
         private static IEnumerable<ValueDropdownItem> GetPredefinedKeys()

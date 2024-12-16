@@ -20,13 +20,11 @@ public class WalletUI : MonoBehaviour, IWalletObserver
     {
         if (type == CurrencyType.InGame)
         {
-            Debug.Log("InGame currency changed to: " + value);
             GameObject.Find("InGameCurrency").GetComponent<TMPro.TextMeshProUGUI>().text = value.ToString();
         }
         else if (type == CurrencyType.Persistent)
         {
             GameObject.Find("PersistentCurrency").GetComponent<TMPro.TextMeshProUGUI>().text = value.ToString();
-            Debug.Log("Persistent currency changed to: " + value);
         }
     }
 

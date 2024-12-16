@@ -86,8 +86,6 @@ namespace Game
             if (Time.time >= nextFireTime)
             {   
                 if (target == null) return;
-                //Rigidbody2D projectileInstance = Instantiate(projectile, transform.position, Quaternion.identity);
-                //Rigidbody2D projectileInstance = PoolManager.Instantiate(projectile.game, transform.position, Quaternion.identity);  
                 GameObject gameObject = PoolManager.Instantiate(projectile.gameObject, transform.position, Quaternion.identity);
                 Rigidbody2D projectileInstance = gameObject.GetComponent<Rigidbody2D>();
                 projectileInstance.gameObject.GetComponent<StatManager>().SetStat(StatType.Damage, damage);

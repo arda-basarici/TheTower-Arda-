@@ -8,15 +8,7 @@ namespace Game
         public EnemyType enemyType;
         public int inGameCurrReward;
         public int persistentCurrReward;
-        //protected void Start()
-        //{
-        //    EnemyManager.AddEnemy(this);
-        //}
 
-        //protected void OnDestroy()
-        //{
-        //    EnemyManager.RemoveEnemy(this);
-        //}
 
         public void OnSpawn()
         {

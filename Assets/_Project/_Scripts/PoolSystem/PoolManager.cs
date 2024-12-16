@@ -75,7 +75,6 @@ namespace Game
                 if (Time.time - pool.LastUsedTime > InactivityThreshold)
                 {
                     pool.ShrinkPool();
-                    Debug.Log($"Shrunk pool for {pool.PrefabName}");
                 }
             }
         }
@@ -94,10 +93,6 @@ namespace Game
         {
             lock (poolLock)
             {
-                if (parent != null)
-                {
-                    Debug.Log("Parent is not null 1");
-                }
                 string prefabName = prefab.name;
                 GameObject obj = null;
                 List<IPoolable> poolables;
@@ -150,10 +145,6 @@ namespace Game
 
         private static GameObject InstantiateFromPool(Pool pool, Vector3 position, Quaternion rotation, Transform parent = null)
         {
-            if (parent != null)
-            {
-                Debug.Log("Parent is not null 2");
-            }
             GameObject obj = pool.GetObject(position, rotation, parent);
             var poolables = obj.GetComponents<IPoolable>();
             foreach (var poolable in poolables)

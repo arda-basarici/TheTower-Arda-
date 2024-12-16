@@ -51,7 +51,6 @@ namespace Game
             GameObject obj = objects.Dequeue();
             if(SpawnParent != null)
             {
-                Debug.Log("Parent is not null 3");
                 obj.transform.SetParent(SpawnParent);
             }
             obj.transform.SetPositionAndRotation(position, rotation);

@@ -7,7 +7,6 @@ namespace Game
     {
         protected void Start()
         {
-            //StartCoroutine(DelayedStart());
             GameFactory.InitilizeAllSystemsForGamePlayState();
         }
 

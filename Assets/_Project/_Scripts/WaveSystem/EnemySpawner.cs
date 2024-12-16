@@ -36,8 +36,6 @@ namespace Game
                 SpawnEnemy(spawnInfo);
                 yield return new WaitForSeconds(spawnInfo.SpawnTime);
             }
-
-            Debug.Log("Wave complete!");
         }
 
         private void SpawnEnemy(SpawnInfo spawnInfo)
