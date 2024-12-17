@@ -15,7 +15,7 @@ namespace Game
 
         public void OnEnter()
         {
-            GameFactory.InitilizeAllSystemsForGamePlayState();
+            
         }
         public void OnExit()
         {

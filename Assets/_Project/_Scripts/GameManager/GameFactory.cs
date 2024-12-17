@@ -1,35 +1,42 @@
-using UnityEngine;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Game
 {
     public static class GameFactory
     {
+        private static Dictionary<string, Type> initializerDictionary;
 
-        public static IGameState GamePlayState { get; private set; } = new GamePlayState();
-        public static void InitilizeAllSystemsForGamePlayState()
+        private static bool IsInitialized => initializerDictionary != null;
+
+        private static void Initialize()
         {
-            InitilizeEnemySystem();
-            InitilizeWaveSystem();
+            if (IsInitialized)
+                return;
+
+           
+            var initializers = Assembly.GetAssembly(typeof(IInitializable))
+                .GetTypes()
+                .Where(t => t.IsClass && !t.IsAbstract && typeof(IInitializable).IsAssignableFrom(t));
+
+            initializerDictionary = new Dictionary<string, Type>();
+
+            foreach (var initializer in initializers)
+            {
+                initializerDictionary.Add(initializer.Name, initializer);
+            }
         }
 
-        public static void InitilizeSessionSystems()
+        public static List<IInitializable> GetInitializersByPhase(InitializationPhase phase)
         {
-            // save , analytics etc etc
-            SaveManager.Initialize(SaveHandlerFactory.CreateSaveHandler());
+            Initialize();
+
+            return initializerDictionary.Values
+                .Select(type => Activator.CreateInstance(type) as IInitializable)
+                .Where(initializer => initializer != null && initializer.Phase == phase)
+                .ToList();
         }
-
-        private static void InitilizeWaveSystem()
-        {
-
-            WaveManager.Initialize(new ScriptableObjectsWaveDataLoader(), AssetLoader.LoadAsset<GameObject>(ResourcePaths.EnemySpawnerPrefab));
-        }
-
-        private static void InitilizeEnemySystem()
-        {
-            EnemyManager.Clear();
-        }
-
-
     }
-
 }

@@ -7,15 +7,13 @@ namespace Game
     {
         protected void Start()
         {
-            GameFactory.InitilizeSessionSystems(); 
-            GameFactory.InitilizeAllSystemsForGamePlayState();
+            //GameFactory.InitilizeSessionSystems(); 
+            //GameFactory.InitilizeAllSystemsForGamePlayState();
+
+            SystemInitializer.InitializeSystemsByPhase(InitializationPhase.Global);
+            SystemInitializer.InitializeSystemsByPhase(InitializationPhase.Gameplay);
         }
 
-        private IEnumerator DelayedStart()
-        {
-          yield return new WaitForSeconds(2);
-           
-        }
         protected void Update()
         {
             GameStateMachine.Update();
