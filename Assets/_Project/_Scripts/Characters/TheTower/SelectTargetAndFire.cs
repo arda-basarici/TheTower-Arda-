@@ -90,7 +90,7 @@ namespace Game
                 Rigidbody2D projectileInstance = gameObject.GetComponent<Rigidbody2D>();
                 projectileInstance.gameObject.GetComponent<StatManager>().SetStat(StatType.Damage, damage);
                 Vector2 direction = (target.position - transform.position).normalized;
-                projectileInstance.linearVelocity = direction * 10f;
+                projectileInstance.linearVelocity = direction * 8.5f;
                 nextFireTime = Time.time + 1f / fireRate;
             }
         }

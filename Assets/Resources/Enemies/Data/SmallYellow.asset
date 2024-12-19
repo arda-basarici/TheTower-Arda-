@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a9d2583ce2f3434c9d753ec4b8cd085, type: 3}
-  m_Name: SmallRed
+  m_Name: SmallYellow
   m_EditorClassIdentifier: 
-  enemyName: smallRed
-  inGameCurrReward: 1
-  persistentCurrReward: 0
-  stats: {fileID: 11400000, guid: f5a0193d57d511644ae1fa576efa9b92, type: 2}
-  prefab: {fileID: 6636820080602682282, guid: 604ce2b1da203ca4b9a0c78677e575ad, type: 3}
+  enemyName: SmallYellow
+  moneyReward: 2
+  tokenReward: 2
+  stats: {fileID: 11400000, guid: 28714d21592eb984aac52b8f11b4e132, type: 2}
+  prefab: {fileID: 6636820080602682282, guid: 2c76a6418962eb5419c4adc5cdefd2cd, type: 3}

@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Game
 {
+    [RequireComponent(typeof(StatManager))]
     public class Projectile : MonoBehaviour, IPoolable
     {
         public void OnSpawn()

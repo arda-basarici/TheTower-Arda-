@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _waveNumber: 1
   _enemyBulks:
-  - _enemyType: 0
-    _minAmount: 10
-    _maxAmount: 10
-    _minSpawnTime: 1
-    _maxSpawnTime: 1.2
+  - _enemyData: {fileID: 11400000, guid: 2f3f197d3e580e4458843d5c3b7816b2, type: 2}
+    _minAmount: 20
+    _maxAmount: 25
+    _minSpawnTime: 0.1
+    _maxSpawnTime: 0.5
+  - _enemyData: {fileID: 11400000, guid: 4a9feddbaf1d9af41a3d792ce1f135c7, type: 2}
+    _minAmount: 1
+    _maxAmount: 1
+    _minSpawnTime: 0.5
+    _maxSpawnTime: 0.5

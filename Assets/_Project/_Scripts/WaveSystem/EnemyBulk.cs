@@ -11,7 +11,7 @@ namespace Game
         [HorizontalGroup("Enemy Type")]
         [LabelWidth(80)]
         [SerializeField]
-        private EnemyType _enemyType;
+        private EnemyData _enemyData;
 
         [HorizontalGroup("Amount")]
         [SerializeField]
@@ -46,7 +46,7 @@ namespace Game
             for (int i = 0; i < amount; i++)
             {
                 var spawnTime = UnityEngine.Random.Range(_minSpawnTime, _maxSpawnTime);
-                EnemiesToSpawn.Add(new SpawnInfo(_enemyType, GetRandomPosition(), spawnTime));
+                EnemiesToSpawn.Add(new SpawnInfo(_enemyData, GetRandomPosition(), spawnTime));
             }
         }
 

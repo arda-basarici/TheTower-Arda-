@@ -6,7 +6,6 @@ namespace Game
 {
     public class EnemySpawner : MonoBehaviour
     {
-        private List<EnemyData> enemyData; 
 
         [SerializeField] 
         private Transform spawnParent;         
@@ -15,7 +14,6 @@ namespace Game
 
         public void Awake()
         {
-            enemyData = new List<EnemyData>(AssetLoader.LoadAll<EnemyData>(ResourcePaths.EnemyData));
             spawnParent = ReferenceResolver.Get<Transform>(ReferenceKeys.EnemyParent);
         }
 
@@ -39,23 +37,12 @@ namespace Game
         }
 
         private void SpawnEnemy(SpawnInfo spawnInfo)
-        {
-            
-            EnemyData enemyDatum = enemyData.Find(e => e.enemyName == spawnInfo.EnemyType.ToString());
-            if (enemyDatum == null)
-            {
-                Debug.LogError($"EnemyData not found for type: {spawnInfo.EnemyType}");
-                return;
-            }
-
-            //GameObject enemyObject = Instantiate(enemyDatum.prefab, spawnInfo.Position, Quaternion.identity, spawnParent);
-            GameObject enemyObject = PoolManager.Instantiate(enemyDatum.prefab, spawnInfo.Position, Quaternion.identity, spawnParent);
+        {   
+            GameObject enemyObject = PoolManager.Instantiate(spawnInfo.EnemyData.prefab, spawnInfo.Position, Quaternion.identity, spawnParent);
             Enemy enemy = enemyObject.GetComponent<Enemy>();
-
-            enemy.enemyType = spawnInfo.EnemyType;
-            enemy.inGameCurrReward = enemyDatum.inGameCurrReward;
-            enemy.persistentCurrReward = enemyDatum.persistentCurrReward;
-
+            
+            enemy.moneyReward = spawnInfo.EnemyData.moneyReward;
+            enemy.tokenReward = spawnInfo.EnemyData.tokenReward;
         }
     }
 }

@@ -4,10 +4,8 @@ namespace Game
 {
     public class Enemy : MonoBehaviour, IPoolable
     {
-
-        public EnemyType enemyType;
-        public int inGameCurrReward;
-        public int persistentCurrReward;
+        public int moneyReward;
+        public int tokenReward;
 
 
         public void OnSpawn()
@@ -28,8 +26,8 @@ namespace Game
 
         public void OnDeath()
         {
-            Wallet.AddInGameCurrency(inGameCurrReward);
-            Wallet.AddPersistentCurrency(persistentCurrReward);
+            Wallet.AddInGameCurrency(moneyReward);
+            Wallet.AddPersistentCurrency(tokenReward);
         }
 
     }
