@@ -24,7 +24,7 @@ MonoBehaviour:
   baseValues:
     m_Keys: 00000000030000000100000002000000
     m_Values:
-    - 15
     - 1
+    - 0.7
     - 2
     - 1

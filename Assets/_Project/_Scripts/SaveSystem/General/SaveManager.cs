@@ -23,7 +23,7 @@ namespace Game
 
         }
 
-        public static T LoadWithAutoMigration<T>(string key, int targetVersion, Func<T, T> manualMigration = null) where T : class, new()
+        public static T LoadWithAutoMigration<T>(string key, int targetVersion) where T : class, new()
         {
             T data = null;
             try

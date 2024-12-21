@@ -12,8 +12,8 @@ public class WalletUI : MonoBehaviour, IWalletObserver
 
     protected void Start()
     {
-        GameObject.Find("InGameCurrency").GetComponent<TMPro.TextMeshProUGUI>().text = Wallet.GetInGameCurrency().ToString();
-        GameObject.Find("PersistentCurrency").GetComponent<TMPro.TextMeshProUGUI>().text = Wallet.GetPersistentCurrency().ToString();
+        GameObject.Find("InGameCurrency").GetComponent<TMPro.TextMeshProUGUI>().text = Wallet.Money.ToString();
+        GameObject.Find("PersistentCurrency").GetComponent<TMPro.TextMeshProUGUI>().text = Wallet.Token.ToString();
     }
 
     public void OnCurrencyChange(CurrencyType type, float value)

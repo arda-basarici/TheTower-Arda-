@@ -6,74 +6,73 @@ namespace Game
     public static class Wallet
     {
         private static readonly List<IWalletObserver> observers = new List<IWalletObserver>();
-        private static int inGameCurrency;
-        private static int persistentCurrency;
-
-        public static void AddInGameCurrency(int amount)
+        private static int money = 0;
+        private static int token = 0;
+        public static int Money
         {
-            inGameCurrency += amount;
-            NotifyObservers(CurrencyType.InGame, inGameCurrency);
+            get => money;
+            set
+            {
+                if (money != value)
+                {
+                    money = Mathf.Max(0, value);
+                    NotifyObservers(CurrencyType.InGame, money);
+                }
+            }
         }
 
-        public static void AddPersistentCurrency(int amount)
+        public static int Token
         {
-            persistentCurrency += amount;
-            NotifyObservers(CurrencyType.Persistent, persistentCurrency);
+            get => token;
+            set
+            {
+                if(token != value)
+                {
+                    token = Mathf.Max(0, value); 
+                    NotifyObservers(CurrencyType.Persistent, token);
+                }
+            }
         }
 
-        public static void RemoveInGameCurrency(int amount)
+
+        public static void AddMoney(int amount)
         {
-            if(inGameCurrency - amount < 0)
+            Money += amount;
+        }
+
+        public static void AddToken(int amount)
+        {
+            Token += amount;
+        }
+
+        public static void RemoveMoney(int amount)
+        {
+            if(money - amount < 0)
             {
                 Debug.LogError("Not enough in-game currency to remove " + amount + " in-game currency.");
                 return;
             }
-            inGameCurrency -= amount;
-
-            NotifyObservers(CurrencyType.InGame, inGameCurrency);
+            Money -= amount;
         }
 
-        public static void RemovePersistentCurrency(int amount)
+        public static void RemoveToken(int amount)
         {
-            if (persistentCurrency - amount < 0)
+            if (token - amount < 0)
             {
                 Debug.LogError("Not enough persistent currency to remove " + amount + " persistent currency.");
                 return;
             }
-            persistentCurrency -= amount;
-            
-            NotifyObservers(CurrencyType.Persistent, persistentCurrency);
-        }
-
-        public static int GetInGameCurrency()
-        {
-            return inGameCurrency;
-        }
-
-        public static int GetPersistentCurrency() { 
-            return persistentCurrency;
-        }
-
-        public static void SetInGameCurrency(int amount)
-        {
-            inGameCurrency = amount;
-            NotifyObservers(CurrencyType.InGame, amount);
-        }
-
-        public static void SetPersistentCurrency(int amount)
-        {
-            persistentCurrency = amount;
-            NotifyObservers(CurrencyType.Persistent, amount);
+            Token -= amount;
         }
         
-        public static bool CanAffordInGameCurrency(int amount)
+        public static bool CanAffordMoney(int amount)
         {
-            return inGameCurrency >= amount;
+            return money >= amount;
         }
 
-        public static bool CanAffordPersistentCurrency(int amount)
+        public static bool CanAffordToken(int amount)
         {
-            return persistentCurrency >= amount;
+            return token >= amount;
         }
 
         private static void NotifyObservers(CurrencyType type, float value)
@@ -100,6 +99,23 @@ namespace Game
         public static void ClearObservers()
         {
             observers.Clear();
+        }
+
+        public static void Save()
+        {
+            WalletSaveData walletData = new WalletSaveData();
+            walletData.money = money;
+            walletData.token = token;
+            walletData.Save();
+        }
+
+        public static void Load()
+        {
+            WalletSaveData walletData = new WalletSaveData();
+            walletData.Load();
+            Money = walletData.money;
+            Token = walletData.token;  
+            
         }
     }
 }

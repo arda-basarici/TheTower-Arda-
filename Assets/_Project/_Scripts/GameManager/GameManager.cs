@@ -7,10 +7,12 @@ namespace Game
     {
         protected void Start()
         {
-            //GameFactory.InitilizeSessionSystems(); 
-            //GameFactory.InitilizeAllSystemsForGamePlayState();
+           
 
             SystemInitializer.InitializeSystemsByPhase(InitializationPhase.Global);
+            
+            Wallet.Load();
+
             SystemInitializer.InitializeSystemsByPhase(InitializationPhase.Gameplay);
         }
 

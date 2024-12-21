@@ -12,15 +12,15 @@ namespace Game
         private Transform target;
         private float nextFireTime = 0f;
 
-        
+        private bool isFiring = false;
+
+
         private StatManager statManager;
 
         #region Initialization
         protected void Awake()
         {
             statManager = GetComponent<StatManager>();
-
-
         }
 
         protected void Start()
@@ -95,10 +95,23 @@ namespace Game
             }
         }
 
+        public void StartFiring()
+        {
+            isFiring = true;
+        }
+
+        public void StopFiring()
+        {
+            isFiring = false;
+        }
+
         protected void Update()
         {
-            SelectTarget();
-            Fire();    
+            if (isFiring)
+            {
+                SelectTarget();
+                Fire();
+            }  
         }
         #endregion
     }

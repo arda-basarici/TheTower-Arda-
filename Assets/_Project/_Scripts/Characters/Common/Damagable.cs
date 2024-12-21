@@ -7,12 +7,14 @@ namespace Game
     {
         private StatManager statManager;
         private Enemy enemy;
+        private TowerManager towerManager;
 
 
         protected void Awake()
         {
             statManager = GetComponent<StatManager>();
             enemy = GetComponent<Enemy>();
+            towerManager = GetComponent<TowerManager>();
         }
 
         public void TakeDamage(float damage)
@@ -25,13 +27,18 @@ namespace Game
             }
         }
 
+        
+
         protected void Die()
         {
-            //Destroy(gameObject);
-            PoolManager.ReturnToPool(gameObject);
             if (enemy != null)
             {
+                PoolManager.ReturnToPool(gameObject);
                 enemy.OnDeath();
+            }
+            else if(towerManager != null)
+            {
+                towerManager.OnDeath();
             }
         }
     }

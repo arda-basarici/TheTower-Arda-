@@ -18,9 +18,14 @@ MonoBehaviour:
     _minAmount: 20
     _maxAmount: 25
     _minSpawnTime: 0.1
-    _maxSpawnTime: 0.5
+    _maxSpawnTime: 0.7
   - _enemyData: {fileID: 11400000, guid: 4a9feddbaf1d9af41a3d792ce1f135c7, type: 2}
     _minAmount: 1
     _maxAmount: 1
     _minSpawnTime: 0.5
     _maxSpawnTime: 0.5
+  - _enemyData: {fileID: 11400000, guid: 071429c8e1c227749a234a8c68f19bbc, type: 2}
+    _minAmount: 20
+    _maxAmount: 20
+    _minSpawnTime: 1
+    _maxSpawnTime: 1

@@ -9,5 +9,6 @@ namespace Game
         public const int PlayerStatsData = 1;
         public const int WalletData = 1;
         public const int GameMetaData = 1;
+        public const int UpgradeSaveData = 1;
     }
 }

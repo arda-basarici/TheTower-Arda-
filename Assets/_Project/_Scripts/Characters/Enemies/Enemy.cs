@@ -22,12 +22,21 @@ namespace Game
         {
         }
 
-
-
+        protected void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision != null)
+            {
+                TowerManager towerManager = collision.gameObject.GetComponent<TowerManager>();
+                if (towerManager != null)
+                {
+                    towerManager.OnDeath();
+                }
+            }
+        }
         public void OnDeath()
         {
-            Wallet.AddInGameCurrency(moneyReward);
-            Wallet.AddPersistentCurrency(tokenReward);
+            Wallet.AddMoney(moneyReward);
+            Wallet.AddToken(tokenReward);
         }
 
     }
