@@ -22,7 +22,7 @@ namespace Game
 
         static PoolManager()
         {
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            UnityEngine.SceneManagement.SceneManager.sceneUnloaded += OnSceneUnloaded;
             InitializeCleaner();
         }
 

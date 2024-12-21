@@ -4,6 +4,7 @@ namespace Game
 {
     public class GamePlayState : IGameState
     {
+        public GameStateType Type => GameStateType.GamePlay;
 
         private enum SubStates
         {
@@ -15,7 +16,7 @@ namespace Game
 
         public void OnEnter()
         {
-            
+            SystemInitializer.InitializeSystemsByPhase(InitializationPhase.Gameplay);
         }
         public void OnExit()
         {

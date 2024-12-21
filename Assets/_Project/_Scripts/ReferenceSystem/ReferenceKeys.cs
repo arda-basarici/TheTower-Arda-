@@ -4,6 +4,7 @@ namespace Game
     {
         None,
         EnemyParent,
+        TheTower,
     }
 
 
