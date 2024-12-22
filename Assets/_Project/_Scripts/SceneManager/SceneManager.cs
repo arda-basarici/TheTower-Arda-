@@ -76,16 +76,9 @@ namespace Game
             else
             {
                 Debug.LogError($"Scene name '{currentSceneName}' does not match any value in Game.SceneName enum.");
-            }
-
-            if (sceneData == null)
-            {
-                Debug.LogWarning($"No SceneData configured for current scene: {currentSceneName}");
                 return;
             }
 
-            Debug.Log($"Automatically initializing systems for scene: {currentSceneName}");
-            InitializeSceneSystems(sceneData);
         }
 
         private static void InitializeSceneSystems(SceneData sceneData)

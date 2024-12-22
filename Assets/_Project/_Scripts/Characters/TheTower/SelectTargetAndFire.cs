@@ -1,18 +1,18 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Game
 {
-    public class SelectTargetAndFire : MonoBehaviour, IStatObserver
+    public class SelectTargetAndFire : MonoBehaviour, IStatObserver, IGamePlayStatePlayingUpdateListener
     {
         [SerializeField]
-        private Rigidbody2D projectile; 
+        private Rigidbody2D projectile;
         private float fireRate;
         private float range;
         private float damage;
         private Transform target;
         private float nextFireTime = 0f;
 
-        private bool isFiring = false;
 
 
         private StatManager statManager;
@@ -37,6 +37,7 @@ namespace Game
             statManager.RegisterObserver(StatType.FireRate, this);
             statManager.RegisterObserver(StatType.Range, this);
             statManager.RegisterObserver(StatType.Damage, this);
+            LifecycleManager.Register(typeof(IGamePlayStatePlayingUpdateListener), this);
         }
 
         protected void OnDisable()
@@ -44,9 +45,10 @@ namespace Game
             statManager.UnregisterObserver(StatType.FireRate, this);
             statManager.UnregisterObserver(StatType.Range, this);
             statManager.UnregisterObserver(StatType.Damage, this);
+            LifecycleManager.Unregister(typeof(IGamePlayStatePlayingUpdateListener), this);
         }
 
-        public void OnStatChange(StatType type,float value)
+        public void OnStatChange(StatType type, float value)
         {
             switch (type)
             {
@@ -66,9 +68,11 @@ namespace Game
         }
         #endregion
 
+        #region In game Logic      
         private void SelectTarget()
         {
-            var closestEnemy = EnemyManager.GetClosestEnemy(transform.position);
+
+            Enemy closestEnemy = EnemyManager.GetClosestEnemy(transform.position);
             if (closestEnemy != null && range >= Vector2.Distance(transform.position, closestEnemy.transform.position))
             {
                 target = closestEnemy.transform;
@@ -79,12 +83,10 @@ namespace Game
             }
         }
 
-
-        #region In game Logic 
         private void Fire()
         {
             if (Time.time >= nextFireTime)
-            {   
+            {
                 if (target == null) return;
                 GameObject gameObject = PoolManager.Instantiate(projectile.gameObject, transform.position, Quaternion.identity);
                 Rigidbody2D projectileInstance = gameObject.GetComponent<Rigidbody2D>();
@@ -95,24 +97,23 @@ namespace Game
             }
         }
 
-        public void StartFiring()
+        public void GamePlayStatePlayingUpdate()
         {
-            isFiring = true;
+
+            SelectTarget();
+            Fire();
+            //Debug.Log(this);
+            //Debug.Log(gameObject);
+
         }
 
-        public void StopFiring()
-        {
-            isFiring = false;
-        }
 
-        protected void Update()
-        {
-            if (isFiring)
-            {
-                SelectTarget();
-                Fire();
-            }  
-        }
+
+        //protected void Update()
+        //{
+        //    SelectTarget();
+        //    Fire();
+        //}
         #endregion
     }
 }

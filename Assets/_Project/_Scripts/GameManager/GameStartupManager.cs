@@ -17,12 +17,17 @@ namespace Game
 
             _instance = this;
             DontDestroyOnLoad(gameObject);
-
             if (!_hasInitialized)
             {
                 _hasInitialized = true;
                 PerformFirstTimeSetup();
-            }
+            }  
+
+        }
+
+        protected void Start()
+        {
+            SceneManager.InitializeCurrentScene();
         }
 
         private void PerformFirstTimeSetup()
@@ -36,8 +41,6 @@ namespace Game
             Debug.Log("Initializing global systems...");
             SystemInitializer.InitializeSystemsByPhase(InitializationPhase.Global);
             Wallet.Load();
-
-            SceneManager.InitializeCurrentScene();
         }
 
         protected void Update()

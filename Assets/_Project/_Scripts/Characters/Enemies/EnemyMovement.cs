@@ -4,9 +4,8 @@ namespace Game
 {
     [RequireComponent(typeof(StatManager))]
     [RequireComponent(typeof(Rigidbody2D))]
-    public class EnemyMovement : MonoBehaviour, IStatObserver
+    public class EnemyMovement : MonoBehaviour, IStatObserver, IGamePlayStatePlayingUpdateListener
     {
-        //private Transform target;
         private float speed = 0f;
         private Rigidbody2D rb;
 
@@ -20,11 +19,13 @@ namespace Game
         protected void OnEnable()
         {
             gameObject.GetComponent<StatManager>().RegisterObserver(StatType.Speed, this);
+            LifecycleManager.Register(typeof(IGamePlayStatePlayingUpdateListener), this);
         }
 
         protected void OnDisable()
         {
             gameObject.GetComponent<StatManager>().UnregisterObserver(StatType.Speed,this);
+            LifecycleManager.Unregister(typeof(IGamePlayStatePlayingUpdateListener), this);
         }
 
         private void Move()
@@ -42,10 +43,10 @@ namespace Game
             }
         }
 
-
-        protected void Update()
+        public void GamePlayStatePlayingUpdate()
         {
             Move();
         }
+
     }
 }

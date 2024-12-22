@@ -12,7 +12,7 @@ namespace Game
         {
            
         }
-        public void OnUpdate()
+        public void Update()
         {
             
         }

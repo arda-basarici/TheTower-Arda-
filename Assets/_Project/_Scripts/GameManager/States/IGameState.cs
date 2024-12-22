@@ -5,5 +5,5 @@ public interface IGameState
     GameStateType Type { get; }
     void OnEnter();
     void OnExit();
-    void OnUpdate();
+    void Update();
 }

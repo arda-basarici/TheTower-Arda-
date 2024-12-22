@@ -16,7 +16,7 @@ namespace Game
 
         public static void Update()
         {
-            _currentState?.OnUpdate();
+            _currentState?.Update();
         }
 
         
