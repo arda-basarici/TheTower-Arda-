@@ -99,21 +99,12 @@ namespace Game
 
         public void GamePlayStatePlayingUpdate()
         {
-
             SelectTarget();
             Fire();
-            //Debug.Log(this);
-            //Debug.Log(gameObject);
-
         }
 
+        
 
-
-        //protected void Update()
-        //{
-        //    SelectTarget();
-        //    Fire();
-        //}
         #endregion
     }
 }
