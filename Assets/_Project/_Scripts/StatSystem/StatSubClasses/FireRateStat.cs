@@ -4,7 +4,7 @@ namespace Game
     {
         public override StatType Type => StatType.FireRate;
 
-        public FireRateStat() : base(0) { }
-        public FireRateStat(float baseValue) : base(baseValue) { }
+        public FireRateStat() : base(0, "") { }
+        public FireRateStat(float baseValue, string id) : base(baseValue,id) { }
     }
 }

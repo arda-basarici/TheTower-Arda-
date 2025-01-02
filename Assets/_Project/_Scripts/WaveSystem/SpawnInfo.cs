@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game
 {
-    public class SpawnInfo
+    public struct SpawnInfo
     {
         public EnemyData EnemyData { get; private set; }
         public Vector3 Position { get; private set; }

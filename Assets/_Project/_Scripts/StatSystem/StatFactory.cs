@@ -9,31 +9,35 @@ namespace Game
     {
         private static Dictionary<StatType, Type> statDictionary;
 
-        private static bool IsInitialized => statDictionary != null;
+        public static bool IsInitialized => statDictionary != null;
 
         private static void Initialize()
         {
             if (IsInitialized)
-            {
                 return;
-            }
-            var stats = Assembly.GetAssembly(typeof(Stat)).GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(Stat)));
+
             statDictionary = new Dictionary<StatType, Type>();
+
+            var stats = Assembly.GetAssembly(typeof(Stat))
+                                .GetTypes()
+                                .Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(Stat)));
 
             foreach (var stat in stats)
             {
-                var tempInstance = System.Activator.CreateInstance(stat) as Stat;
+                var tempInstance = Activator.CreateInstance(stat) as Stat;
                 statDictionary.Add(tempInstance.Type, stat);
             }
         }
 
-        public static Stat GetStat(StatType statType, float baseValue)
+        public static Stat GetStat(StatType statType, float baseValue, string gameobjId)
         {
             Initialize();
-            if (statDictionary.TryGetValue(statType, out Type stat))
+
+            if (statDictionary.TryGetValue(statType, out var statTypeClass))
             {
-                return System.Activator.CreateInstance(stat, new object[] {baseValue}) as Stat;
+                return Activator.CreateInstance(statTypeClass, new object[] { baseValue, gameobjId }) as Stat;
             }
+
             return null;
         }
     }

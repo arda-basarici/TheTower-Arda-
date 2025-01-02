@@ -21,9 +21,7 @@ namespace Game
 
         {
             collision.gameObject.GetComponent<Damagable>().TakeDamage(gameObject.GetComponent<StatManager>().GetCurrentValue(StatType.Damage));
-            //Destroy(gameObject);
             PoolManager.ReturnToPool(gameObject);
-
         }
     }
 }

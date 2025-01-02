@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game
 {
     public static class Wallet
     {
-        private static readonly List<IWalletObserver> observers = new List<IWalletObserver>();
         private static int money = 0;
         private static int token = 0;
         public static int Money
@@ -16,7 +14,7 @@ namespace Game
                 if (money != value)
                 {
                     money = Mathf.Max(0, value);
-                    NotifyObservers(CurrencyType.InGame, money);
+                    EventSystem.Get<WalletEventManager>(EventManagerId.wallet).UpdateWallet(CurrencyType.InGame, money);
                 }
             }
         }
@@ -28,8 +26,8 @@ namespace Game
             {
                 if(token != value)
                 {
-                    token = Mathf.Max(0, value); 
-                    NotifyObservers(CurrencyType.Persistent, token);
+                    token = Mathf.Max(0, value);
+                    EventSystem.Get<WalletEventManager>(EventManagerId.wallet).UpdateWallet(CurrencyType.Persistent, token);
                 }
             }
         }
@@ -73,32 +71,6 @@ namespace Game
         public static bool CanAffordToken(int amount)
         {
             return token >= amount;
-        }
-
-        private static void NotifyObservers(CurrencyType type, float value)
-        {
-            foreach (var observer in observers)
-            {
-                observer.OnCurrencyChange(type, value);
-            }
-        }
-
-        public static void RegisterObserver(IWalletObserver observer)
-        {
-            observers.Add(observer);
-        }
-
-        public static void UnregisterObserver(IWalletObserver observer)
-        {
-            if (observers.Contains(observer))
-            {
-                observers.Remove(observer);
-            }
-        }
-
-        public static void ClearObservers()
-        {
-            observers.Clear();
         }
 
         public static void Save()

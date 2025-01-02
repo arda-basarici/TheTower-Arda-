@@ -1,32 +1,23 @@
-using Game;
 using UnityEngine;
 
-public class WalletUI : MonoBehaviour, IWalletObserver
+namespace Game
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected void Awake()
+    public class WalletUI : MonoBehaviour
     {
-        Wallet.RegisterObserver(this);
-        
-    }
-
-    protected void Start()
-    {
-        GameObject.Find("InGameCurrency").GetComponent<TMPro.TextMeshProUGUI>().text = Wallet.Money.ToString();
-        GameObject.Find("PersistentCurrency").GetComponent<TMPro.TextMeshProUGUI>().text = Wallet.Token.ToString();
-    }
-
-    public void OnCurrencyChange(CurrencyType type, float value)
-    {
-        if (type == CurrencyType.InGame)
+        protected void OnEnable()
         {
-            GameObject.Find("InGameCurrency").GetComponent<TMPro.TextMeshProUGUI>().text = value.ToString();
+            EventSystem.Get<WalletEventManager>(EventManagerId.wallet).RegisterStateObserver(OnStateUpdate);
         }
-        else if (type == CurrencyType.Persistent)
+
+        protected void OnDisable()
         {
-            GameObject.Find("PersistentCurrency").GetComponent<TMPro.TextMeshProUGUI>().text = value.ToString();
+            EventSystem.Get<WalletEventManager>(EventManagerId.wallet).RegisterStateObserver(OnStateUpdate);
+        }
+
+        public void OnStateUpdate(WalletState state)
+        {
+            GameObject.Find("InGameCurrency").GetComponent<TMPro.TextMeshProUGUI>().text = state.Money.ToString();
+            GameObject.Find("PersistentCurrency").GetComponent<TMPro.TextMeshProUGUI>().text = state.Token.ToString();
         }
     }
-
-   
 }

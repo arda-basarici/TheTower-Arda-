@@ -6,19 +6,40 @@ namespace Game
 {
     public class TabManager : MonoBehaviour
     {
+        
         [SerializeField] private TabGroups id;
         [SerializeField] public List<TabPanel> tabPanels;
-        [SerializeField] private TabPanel InitialTab; 
+        [SerializeField] public TabPanel InitialTab;
         private TabPanel _currentTab;
-
-        private void Awake()
+        protected void Awake()
         {
-            TabSystem.RegisterTabManager(id,this);
+            TabSystem.RegisterTabManager(id, this);
+
         }
 
-        private void OnDestroy()
+        protected void Start()
+        {
+           Initialize();
+        }
+
+        protected void OnDestroy()
         {
             TabSystem.UnregisterTabManager(id);
+        }
+
+        public void Initialize()
+        {
+            foreach (var tabPanel in tabPanels)
+            {
+                if (tabPanel != null)
+                {
+                    tabPanel.Initialize();
+                }
+
+            }
+            HideAll();
+            Show(InitialTab);
+            TabSystem._tabGroupEvents[id]?.Invoke(InitialTab);
         }
 
         public void Show<T>() where T : TabPanel
@@ -67,11 +88,15 @@ namespace Game
         {
             foreach (var tabPanel in tabPanels)
             {
-                tabPanel.Hide();
+                if(tabPanel != null)
+                {
+                    tabPanel.Hide();
+                }
+                    
             }
         }
 
-        public T GetView<T>() where T : TabView
+        public T GetPanel<T>() where T : TabView
         {
             for (int i = 0; i < tabPanels.Count; i++)
             {
@@ -81,18 +106,6 @@ namespace Game
                 }
             }
             return null;
-        }
-
-
-
-        private void Start()
-        {
-            foreach (var tabPanel in tabPanels)
-            {
-                tabPanel.Initialize();
-            }
-            HideAll();
-            Show(InitialTab);
         }
     }
 }

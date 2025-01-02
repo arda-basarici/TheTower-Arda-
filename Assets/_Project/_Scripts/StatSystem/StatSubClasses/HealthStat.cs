@@ -4,7 +4,7 @@ namespace Game
     {
         public override StatType Type => StatType.Health;
 
-        public HealthStat() : base(0) { }
-        public HealthStat(float baseValue) : base(baseValue) { }
+        public HealthStat() : base(0, "") { }
+        public HealthStat(float baseValue, string id) : base(baseValue, id) { }
     }
 }

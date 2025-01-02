@@ -4,7 +4,7 @@ namespace Game
     {
         public override StatType Type => StatType.Range;
 
-        public RangeStat() : base(0) { }
-        public RangeStat(float baseValue) : base(baseValue) { }
+        public RangeStat() : base(0, "") { }
+        public RangeStat(float baseValue, string id) : base(baseValue, id) { }
     }
 }

@@ -1,57 +1,35 @@
-using System.Collections.Generic;
-
 namespace Game
 {
     public abstract class Stat
     {
-
-        private readonly List<IStatObserver> observers = new List<IStatObserver>();
         public abstract StatType Type { get; }
         public float BaseValue { get; protected set; }
         public float CurrentValue;
+        public StatEventManager statEventManager;
 
 
-        protected Stat(float baseValue)
+        protected Stat(float baseValue, string id)
         {
             BaseValue = baseValue;
             CurrentValue = baseValue;
-        }
-
-        public void RegisterObserver(IStatObserver observer)
-        {
-            observers.Add(observer);
-        }
-
-        public void UnregisterObserver(IStatObserver observer)
-        {
-            if (observers.Contains(observer))
-            {
-                observers.Remove(observer);
-            }
-        }
-
-        protected void NotifyObservers()
-        {
-            foreach (var observer in observers)
-            {
-                observer.OnStatChange(Type,CurrentValue);
-            }
+            statEventManager = EventSystem.Get<StatEventManager>(Type.ToString() + id);
+            statEventManager.UpdateStat(Type,CurrentValue);
         }
         public virtual void IncreaseStat(float value)
         {
             CurrentValue += value;
-            NotifyObservers();
+            statEventManager.UpdateStat(Type,CurrentValue);
         }
         public virtual void DecreaseStat(float value)
         {
             CurrentValue -= value;
-            NotifyObservers();
+            statEventManager.UpdateStat(Type, CurrentValue);
         }
 
         public virtual void SetStat(float value)
         {
             CurrentValue = value;
-            NotifyObservers();
+            statEventManager.UpdateStat(Type, CurrentValue);
         }
     }
 }

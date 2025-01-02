@@ -15,7 +15,7 @@ namespace Game
 
 
 #if UNITY_EDITOR
-        private void OnEnable()
+        protected void OnEnable()
         {
            string assetPath = AssetDatabase.GetAssetPath(this);
            enemyName = Path.GetFileNameWithoutExtension(assetPath);

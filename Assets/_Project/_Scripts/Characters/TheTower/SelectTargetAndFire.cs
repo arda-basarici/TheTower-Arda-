@@ -1,9 +1,8 @@
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Game
 {
-    public class SelectTargetAndFire : MonoBehaviour, IStatObserver, IGamePlayStatePlayingUpdateListener
+    public class SelectTargetAndFire : MonoBehaviour, IGamePlayStatePlayingUpdateListener
     {
         [SerializeField]
         private Rigidbody2D projectile;
@@ -13,65 +12,39 @@ namespace Game
         private Transform target;
         private float nextFireTime = 0f;
 
-
-
-        private StatManager statManager;
-
-        #region Initialization
-        protected void Awake()
-        {
-            statManager = GetComponent<StatManager>();
-        }
-
-        protected void Start()
-        {
-            fireRate = statManager.GetCurrentValue(StatType.FireRate);
-            range = statManager.GetCurrentValue(StatType.Range);
-            damage = statManager.GetCurrentValue(StatType.Damage);
-        }
-        #endregion
-
-        #region Observer methods
         protected void OnEnable()
         {
-            statManager.RegisterObserver(StatType.FireRate, this);
-            statManager.RegisterObserver(StatType.Range, this);
-            statManager.RegisterObserver(StatType.Damage, this);
+            EventSystem.Get<StatEventManager>(StatType.FireRate.ToString() + GetComponent<Identifier>().ID).RegisterStateObserver(OnFireRateChange);
+            EventSystem.Get<StatEventManager>(StatType.Range.ToString() + GetComponent<Identifier>().ID).RegisterStateObserver(OnRangeChange);
+            EventSystem.Get<StatEventManager>(StatType.Damage.ToString() + GetComponent<Identifier>().ID).RegisterStateObserver(OnDamageChange);
             LifecycleManager.Register(typeof(IGamePlayStatePlayingUpdateListener), this);
         }
 
         protected void OnDisable()
         {
-            statManager.UnregisterObserver(StatType.FireRate, this);
-            statManager.UnregisterObserver(StatType.Range, this);
-            statManager.UnregisterObserver(StatType.Damage, this);
+            EventSystem.Get<StatEventManager>(StatType.FireRate.ToString() + GetComponent<Identifier>().ID).UnregisterStateObserver(OnFireRateChange);
+            EventSystem.Get<StatEventManager>(StatType.Range.ToString() + GetComponent<Identifier>().ID).UnregisterStateObserver(OnRangeChange);
+            EventSystem.Get<StatEventManager>(StatType.Damage.ToString() + GetComponent<Identifier>().ID).UnregisterStateObserver(OnDamageChange);
             LifecycleManager.Unregister(typeof(IGamePlayStatePlayingUpdateListener), this);
         }
 
-        public void OnStatChange(StatType type, float value)
+        public void OnFireRateChange(StatState statstate)
         {
-            switch (type)
-            {
-                case StatType.FireRate:
-                    fireRate = value;
-                    break;
-                case StatType.Range:
-                    range = value;
-                    break;
-                case StatType.Damage:
-                    damage = value;
-                    break;
-                default:
-                    Debug.LogError($"Unhandled StatType: {type}");
-                    break;
-            }
+            fireRate = statstate.CurrentValue;
         }
-        #endregion
 
-        #region In game Logic      
+        public void OnRangeChange(StatState statstate)
+        {
+            range = statstate.CurrentValue;
+        }
+
+        public void OnDamageChange(StatState statstate)
+        {
+            damage = statstate.CurrentValue;
+        }
+  
         private void SelectTarget()
         {
-
             Enemy closestEnemy = EnemyManager.GetClosestEnemy(transform.position);
             if (closestEnemy != null && range >= Vector2.Distance(transform.position, closestEnemy.transform.position))
             {
@@ -103,8 +76,5 @@ namespace Game
             Fire();
         }
 
-        
-
-        #endregion
     }
 }

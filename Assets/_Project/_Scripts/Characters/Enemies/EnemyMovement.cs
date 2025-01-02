@@ -2,29 +2,27 @@ using UnityEngine;
 
 namespace Game
 {
-    [RequireComponent(typeof(StatManager))]
     [RequireComponent(typeof(Rigidbody2D))]
-    public class EnemyMovement : MonoBehaviour, IStatObserver, IGamePlayStatePlayingUpdateListener
+    public class EnemyMovement : MonoBehaviour, IGamePlayStatePlayingUpdateListener
     {
         private float speed = 0f;
         private Rigidbody2D rb;
 
 
         protected void Awake()
-        {       
+        {
             rb = GetComponent<Rigidbody2D>();
-            speed = gameObject.GetComponent<StatManager>().GetCurrentValue(StatType.Speed);
         }
 
         protected void OnEnable()
-        {
-            gameObject.GetComponent<StatManager>().RegisterObserver(StatType.Speed, this);
+        { 
+            EventSystem.Get<StatEventManager>(StatType.Speed.ToString() + GetComponent<Identifier>().ID).RegisterStateObserver(OnStatUpdated);
             LifecycleManager.Register(typeof(IGamePlayStatePlayingUpdateListener), this);
         }
 
         protected void OnDisable()
         {
-            gameObject.GetComponent<StatManager>().UnregisterObserver(StatType.Speed,this);
+            EventSystem.Get<StatEventManager>(StatType.Speed.ToString() + GetComponent<Identifier>().ID).UnregisterStateObserver(OnStatUpdated);
             LifecycleManager.Unregister(typeof(IGamePlayStatePlayingUpdateListener), this);
         }
 
@@ -32,15 +30,11 @@ namespace Game
         {
             Vector2 direction = Vector2.zero - (Vector2)transform.position;
             rb.linearVelocity = direction.normalized * speed;
-
         }
 
-        public void OnStatChange(StatType type, float value)
+        public void OnStatUpdated(StatState statState)
         {
-            if (type == StatType.Speed)
-            {
-                speed = value;
-            }
+            speed = statState.CurrentValue;
         }
 
         public void GamePlayStatePlayingUpdate()

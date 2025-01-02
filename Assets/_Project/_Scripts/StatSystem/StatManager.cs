@@ -7,7 +7,6 @@ namespace Game
     {
         [SerializeField]
         private StatData statData;
-
         private readonly Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat>();
 
         protected void Awake()
@@ -21,7 +20,7 @@ namespace Game
             {
                 foreach (StatType statType in System.Enum.GetValues(typeof(StatType)))
                 {
-                    Stat stat = StatFactory.GetStat(statType, statData.GetBaseValue(statType));
+                    Stat stat = StatFactory.GetStat(statType, statData.GetBaseValue(statType), GetComponent<Identifier>().ID);
                     if (stat != null)
                     {
                         stats.Add(statType, stat);
@@ -37,18 +36,6 @@ namespace Game
             }
             Debug.LogWarning($"Stat '{statType}' not found on {gameObject.name}");
             return null;
-        }
-
-        public void RegisterObserver(StatType statType, IStatObserver observer)
-        {
-            Stat stat = GetStat(statType);
-            stat?.RegisterObserver(observer);
-        }
-
-        public void UnregisterObserver(StatType statType, IStatObserver observer)
-        {
-            Stat stat = GetStat(statType);
-            stat?.UnregisterObserver(observer);
         }
 
         public void IncreaseStat(StatType statType, float value)
