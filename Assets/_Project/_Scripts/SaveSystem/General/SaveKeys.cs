@@ -6,5 +6,6 @@ namespace Game
         public const string WalletData = "wallet_data";
         public const string GameMeta = "game_meta";
         public const string InGameUpgrades = "in_game_upgrades";
+        public const string UpgradesData = "upgrades_data";
     }
 }

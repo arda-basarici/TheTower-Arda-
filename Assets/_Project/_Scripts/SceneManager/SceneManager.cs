@@ -30,6 +30,7 @@ namespace Game
             }
 
             var loadMode = additive ? LoadSceneMode.Additive : LoadSceneMode.Single;
+            Debug.Log(sceneName.ToString());
             AsyncOperation loadOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName.ToString(), loadMode);
 
             if (loadOperation == null)

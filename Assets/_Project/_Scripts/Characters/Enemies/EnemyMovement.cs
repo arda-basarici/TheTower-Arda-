@@ -16,13 +16,13 @@ namespace Game
 
         protected void OnEnable()
         { 
-            EventSystem.Get<StatEventManager>(StatType.Speed.ToString() + GetComponent<Identifier>().ID).RegisterStateObserver(OnStatUpdated);
+            StateSystem.Get<StatStateManager>(StatType.Speed.ToString() + GetComponent<Identifier>().ID).RegisterStateObserver(OnStatUpdated);
             LifecycleManager.Register(typeof(IGamePlayStatePlayingUpdateListener), this);
         }
 
         protected void OnDisable()
         {
-            EventSystem.Get<StatEventManager>(StatType.Speed.ToString() + GetComponent<Identifier>().ID).UnregisterStateObserver(OnStatUpdated);
+            StateSystem.Get<StatStateManager>(StatType.Speed.ToString() + GetComponent<Identifier>().ID).UnregisterObserver(OnStatUpdated);
             LifecycleManager.Unregister(typeof(IGamePlayStatePlayingUpdateListener), this);
         }
 

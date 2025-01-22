@@ -14,17 +14,17 @@ namespace Game
 
         protected void OnEnable()
         {
-            EventSystem.Get<StatEventManager>(StatType.FireRate.ToString() + GetComponent<Identifier>().ID).RegisterStateObserver(OnFireRateChange);
-            EventSystem.Get<StatEventManager>(StatType.Range.ToString() + GetComponent<Identifier>().ID).RegisterStateObserver(OnRangeChange);
-            EventSystem.Get<StatEventManager>(StatType.Damage.ToString() + GetComponent<Identifier>().ID).RegisterStateObserver(OnDamageChange);
+            StateSystem.Get<StatStateManager>(StatType.FireRate.ToString() + GetComponent<Identifier>().ID).RegisterStateObserver(OnFireRateChange);
+            StateSystem.Get<StatStateManager>(StatType.Range.ToString() + GetComponent<Identifier>().ID).RegisterStateObserver(OnRangeChange);
+            StateSystem.Get<StatStateManager>(StatType.Damage.ToString() + GetComponent<Identifier>().ID).RegisterStateObserver(OnDamageChange);
             LifecycleManager.Register(typeof(IGamePlayStatePlayingUpdateListener), this);
         }
 
         protected void OnDisable()
         {
-            EventSystem.Get<StatEventManager>(StatType.FireRate.ToString() + GetComponent<Identifier>().ID).UnregisterStateObserver(OnFireRateChange);
-            EventSystem.Get<StatEventManager>(StatType.Range.ToString() + GetComponent<Identifier>().ID).UnregisterStateObserver(OnRangeChange);
-            EventSystem.Get<StatEventManager>(StatType.Damage.ToString() + GetComponent<Identifier>().ID).UnregisterStateObserver(OnDamageChange);
+            StateSystem.Get<StatStateManager>(StatType.FireRate.ToString() + GetComponent<Identifier>().ID).UnregisterObserver(OnFireRateChange);
+            StateSystem.Get<StatStateManager>(StatType.Range.ToString() + GetComponent<Identifier>().ID).UnregisterObserver(OnRangeChange);
+            StateSystem.Get<StatStateManager>(StatType.Damage.ToString() + GetComponent<Identifier>().ID).UnregisterObserver(OnDamageChange);
             LifecycleManager.Unregister(typeof(IGamePlayStatePlayingUpdateListener), this);
         }
 

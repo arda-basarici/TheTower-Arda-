@@ -1,8 +1,10 @@
-public static class ResourcePaths {
-    public const string WaveData = "WaveData";
-    public const string EnemyData = "Enemies/Data";
-    public const string EnemySpawnerPrefab = "Prefabs/EnemySpawner";
-    public const string SceneRegistry = "SceneData/SceneRegistry";
+namespace Game
+{
+    public static class ResourcePaths
+    {
+        public const string EnemySpawnerPrefab = "Prefabs/EnemySpawner";
+        public const string SceneRegistry = "SceneData/SceneRegistry";
+        public const string StatUpgradeData = "StatUpgradeData";
+        public const string EnemyPrefab = "Prefabs/Enemy";
+    }
 }
-
-

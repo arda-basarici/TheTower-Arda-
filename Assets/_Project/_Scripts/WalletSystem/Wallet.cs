@@ -4,48 +4,47 @@ namespace Game
 {
     public static class Wallet
     {
-        private static int money = 0;
-        private static int token = 0;
-        public static int Money
+        private static WalletState walletState;
+        public static float Money
         {
-            get => money;
+            get => walletState.Money;
             set
             {
-                if (money != value)
+                if (walletState.Money != value)
                 {
-                    money = Mathf.Max(0, value);
-                    EventSystem.Get<WalletEventManager>(EventManagerId.wallet).UpdateWallet(CurrencyType.InGame, money);
+                    walletState.Money = Mathf.Max(0, value);
+                    StateSystem.Get<WalletStateManager>(StateManagerId.wallet).UpdateWallet(walletState);
                 }
             }
         }
 
-        public static int Token
+        public static float Token
         {
-            get => token;
+            get => walletState.Token;
             set
             {
-                if(token != value)
+                if(walletState.Token != value)
                 {
-                    token = Mathf.Max(0, value);
-                    EventSystem.Get<WalletEventManager>(EventManagerId.wallet).UpdateWallet(CurrencyType.Persistent, token);
+                    walletState.Token = Mathf.Max(0, value);
+                    StateSystem.Get<WalletStateManager>(StateManagerId.wallet).UpdateWallet(walletState);
                 }
             }
         }
 
 
-        public static void AddMoney(int amount)
+        public static void AddMoney(float amount)
         {
             Money += amount;
         }
 
-        public static void AddToken(int amount)
+        public static void AddToken(float amount)
         {
             Token += amount;
         }
 
-        public static void RemoveMoney(int amount)
+        public static void RemoveMoney(float amount)
         {
-            if(money - amount < 0)
+            if(Money - amount < 0)
             {
                 Debug.LogError("Not enough in-game currency to remove " + amount + " in-game currency.");
                 return;
@@ -55,7 +54,7 @@ namespace Game
 
         public static void RemoveToken(int amount)
         {
-            if (token - amount < 0)
+            if (Token - amount < 0)
             {
                 Debug.LogError("Not enough persistent currency to remove " + amount + " persistent currency.");
                 return;
@@ -65,19 +64,19 @@ namespace Game
         
         public static bool CanAffordMoney(int amount)
         {
-            return money >= amount;
+            return Money >= amount;
         }
 
         public static bool CanAffordToken(int amount)
         {
-            return token >= amount;
+            return Token >= amount;
         }
 
         public static void Save()
         {
             WalletSaveData walletData = new WalletSaveData();
-            walletData.money = money;
-            walletData.token = token;
+            walletData.money = Money;
+            walletData.token = Token;
             walletData.Save();
         }
 

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +7,7 @@ namespace Game
     [RequireComponent(typeof(UnityEngine.UI.Button))]
     public abstract class ButtonController : MonoBehaviour
     {
-        protected Button button;
+        public Button button;
         
         protected virtual void Awake()
         {

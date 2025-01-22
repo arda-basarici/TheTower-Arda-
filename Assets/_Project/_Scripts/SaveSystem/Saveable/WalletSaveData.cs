@@ -6,8 +6,8 @@ namespace Game
     public class WalletSaveData : ISaveable
     {
         private readonly string saveKey = SaveKeys.WalletData;
-        public int money = 0;
-        public int token = 0;
+        public float money = 0;
+        public float token = 0;
 
         public const int currentVersion = Versions.WalletData;
         public int Version { get; set; } = currentVersion;

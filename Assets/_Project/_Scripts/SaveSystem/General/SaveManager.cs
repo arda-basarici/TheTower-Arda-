@@ -25,6 +25,7 @@ namespace Game
 
         public static T LoadWithAutoMigration<T>(string key, int targetVersion) where T : class, new()
         {
+            Debug.Log($"Attempting to load data for key: {key}, Type: {typeof(T)}");
             T data = null;
             try
             {

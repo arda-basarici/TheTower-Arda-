@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 namespace Game
 {
     public class TabButtonController : ButtonController
     {
         [SerializeField] private TabPanel tabToView;
         [SerializeField] private TabGroups tabGroup;
+        [SerializeField] private GameObject focus;
 
         protected override void Awake()
         {
@@ -39,12 +39,14 @@ namespace Game
 
         private void HighlightButton()
         {
-            button.image.color = Color.green;   
+            if (focus == null) return;
+            focus.SetActive(true);
         }
 
         private void UnhighlightButton()
         {
-            button.image.color = Color.white;
+            if (focus == null) return;
+            focus.SetActive(false);
         }
     }
 }

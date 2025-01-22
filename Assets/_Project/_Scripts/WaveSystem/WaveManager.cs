@@ -1,23 +1,21 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Game
 {
     public static class WaveManager
     {
-        public static List<WaveData> WaveDataList { get; private set; }
         public static int CurrentWave { get; private set; }
+        public static int CurrentTier { get; private set; }
 
         private static EnemySpawner _enemySpawner;
         private static GameObject _spawnerPrefab;
 
-        public static void Initialize(IWaveDataLoader waveDataLoader,GameObject spawnerPrefabReference)
-        {
+        private static float waveTimer = 0f;
 
-            WaveDataList = waveDataLoader.LoadWaveDataAndReturn();
-            WaveDataList.ForEach(wave => {
-                wave.GenerateEnemiesToSpawn();
-            });
+        public static void Initialize(GameObject spawnerPrefabReference)
+        {
             CurrentWave = 1;
             _spawnerPrefab = spawnerPrefabReference;
             StartCurrentWave();
@@ -34,27 +32,11 @@ namespace Game
         public static void StartCurrentWave()
         {
             CheckSpawner();
-            var waveData = GetCurrentWaveData();
-            _enemySpawner.StartWave(waveData.EnemiesToSpawn);
-        }
-
-        public static WaveData GetCurrentWaveData()
-        {
-            if (WaveDataList == null || CurrentWave < WaveDataList.Count - 1)
-            {
-                Debug.LogError("Invalid wave data or out of bounds wave index");
-                return null;
-            }
-            return WaveDataList[CurrentWave -1];
+            _enemySpawner.StartWave(CurrentWave, CurrentTier);
         }
 
         public static void NextWave()
         {
-            if (WaveDataList == null || CurrentWave + 1 < WaveDataList.Count - 1)
-            {
-                Debug.LogError("No more waves");
-                return;
-            }
             CurrentWave++;
         }
 

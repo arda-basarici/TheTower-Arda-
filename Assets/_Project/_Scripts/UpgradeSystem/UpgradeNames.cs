@@ -1,6 +1,6 @@
 namespace Game
 {
-    public enum InGameUpgradeNames
+    public enum UpgradeName
     {
         Health,
         Damage,

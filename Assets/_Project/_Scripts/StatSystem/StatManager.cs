@@ -34,8 +34,17 @@ namespace Game
             {
                 return stat;
             }
-            Debug.LogWarning($"Stat '{statType}' not found on {gameObject.name}");
-            return null;
+            else
+            {
+                Stat s = StatFactory.GetStat(statType, 0, GetComponent<Identifier>().ID);
+                if (s != null)
+                {
+                    stats.Add(statType, s);
+                }
+                return s;
+            }
+            
+            
         }
 
         public void IncreaseStat(StatType statType, float value)
@@ -53,13 +62,13 @@ namespace Game
         public void SetStat(StatType statType, float value)
         {
             Stat stat = GetStat(statType);
-            stat.CurrentValue = value;  
-            
+            stat.SetStat(value);
+
         }
 
         public float GetCurrentValue(StatType statType)
         {
-            return GetStat(statType).CurrentValue;
+            return GetStat(statType).GetValue();
         }
     }
 }

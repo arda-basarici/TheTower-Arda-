@@ -1,39 +1,35 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game
 {
     [CreateAssetMenu(fileName = "NewUpgrade", menuName = "Upgrades/StatUpgrade")]
-    public class StatUpgrade : ScriptableObject
+    public class StatUpgrade : ScriptableObject, IMenuStateEnterListener
     {
-
-        private readonly List<IUpgradeObserver> observers = new List<IUpgradeObserver>();
         [SerializeField] private UpgradeType upgradeType;
-        [SerializeField] private InGameUpgradeNames upgradeName;
+        [SerializeField] private UpgradeName upgradeName;
         [SerializeField] private StatType affectedStat;
         [SerializeField] private bool isPersistent;
-        [SerializeField] private string description; 
+        [SerializeField] private string description;
         [SerializeField] private int baseCost;
-        [SerializeField] private int baseEffect;
+        [SerializeField] private int baseEffect; // stat value without any upgrades
         [SerializeField] private int costMultiplier;
         [SerializeField] private int effectMultiplier;
         [SerializeField] private bool isAvailable;
-        
+        [SerializeField] private int MaxLevel;
+
         private int currentLevel;
-        public UpgradeType UpgradeType => upgradeType;
-        public InGameUpgradeNames Name => upgradeName;
-        public StatType AffectedStat => affectedStat;
-        public string Description => description;
-        public int BaseCost => baseCost;
-        public int BaseEffect => baseEffect;
-        public int CostMultiplier => costMultiplier;
-        public int EffectMultiplier => effectMultiplier;
-        public int CurrentLevel => currentLevel;
-        public bool IsPersistent => isPersistent;
 
+        private int CurrentCost => baseCost + costMultiplier * currentLevel;
+        private int CurrentEffect => baseEffect + effectMultiplier * (currentLevel + 1); // stat value if upgraded
 
-        public int CurrentCost => BaseCost + CostMultiplier * CurrentLevel;
-        public int CurrentEffect => BaseEffect + EffectMultiplier * CurrentLevel;
+        private bool MaxLevelReached => currentLevel >= MaxLevel;
+
+        private UpgradeStateManager upgradeStateManager;
+
+        public string StateManagerKey { get; private set; }
+
+        public UpgradeState State { get; private set; }
+
 
         public bool IsAvailable
         {
@@ -41,54 +37,66 @@ namespace Game
             set
             {
                 isAvailable = value;
-                NotifyObservers();
+                Update();
             }
         }
 
-        public void RegisterObserver(IUpgradeObserver observer)
+        public void SetLevel(int level)
         {
-            observers.Add(observer);
+            currentLevel = level;
+            Update();
+        }
+        public void Initialize()
+        {
+            StateManagerKey = upgradeName.ToString() + isPersistent;
+            upgradeStateManager = StateSystem.Get<UpgradeStateManager>(StateManagerKey);
+            LifecycleManager.Register(typeof(IMenuStateEnterListener), this);
+            Update();
+
         }
 
-        public void UnregisterObserver(IUpgradeObserver observer)
+        public void OnMenuStateEnter()
         {
-            if (observers.Contains(observer))
+            Clear();
+        }
+
+        private void Update()
+        {
+            State = new UpgradeState
             {
-                observers.Remove(observer);
-            }
-        }
+                upgradeType = upgradeType,
+                name = upgradeName,
+                affectedStat = affectedStat,
+                description = description,
+                currentLevel = currentLevel,
+                isPersistent = isPersistent,
+                isAvailable = isAvailable,
+                currentCost = CurrentCost,
+                currentEffect = CurrentEffect,
+                maxLevelReached = MaxLevelReached,
+                upgrade = Upgrade
+            };
 
-        public void NotifyObservers()
-        {
-            foreach (var observer in observers)
-            {
-                observer.OnUpgradeChange();
-            }
-        }
-
-        public void SetBaseEffect(int value)
-        {
-            baseEffect = value;
-            NotifyObservers();
-        }
-
-        public void IncreaseLevel()
-        {
-            currentLevel++;
-            NotifyObservers();
-        }
-
-        public void ApplyEffect(StatManager statManager)
-        {
-            statManager.SetStat(affectedStat, CurrentEffect);
+            upgradeStateManager.UpdateUpgrade(State);
         }
 
         public void Upgrade()
         {
             if (IsAvailable)
             {
-                IncreaseLevel();
+                currentLevel++;
+                Update();
             }
         }
+
+        public void Clear()
+        {
+            if (!isPersistent)
+            {
+                currentLevel = 0;
+                Update();
+            }
+        }
+
     }
 }

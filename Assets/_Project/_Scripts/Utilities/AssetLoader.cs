@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 
@@ -9,7 +10,7 @@ public static class AssetLoader
         T asset = Resources.Load<T>(path);
         if (asset == null)
         {
-            Debug.LogError($"Asset not found at path: {path}");
+            Debug.LogWarning($"Asset not found at path: {path}");
         }
         return asset;
     }
@@ -20,8 +21,8 @@ public static class AssetLoader
 
        if(assets.Length == 0)
         {
-            Debug.LogError($"No assets found at path: {path}");
-            return null;
+            Debug.LogWarning($"No assets found at path: {path}");
+            return System.Array.Empty<T>();
         }   
        return assets;
     }

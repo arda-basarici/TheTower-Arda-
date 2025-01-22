@@ -1,68 +1,47 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Game
 {
     static class UpgradeManager
     {
-        private static List<StatUpgrade> ingameUpgrades = new List<StatUpgrade>();
+        public static List<StatUpgrade> allUpgrades = new List<StatUpgrade>();
+        public static List<StatUpgrade> ingameUpgrades = new List<StatUpgrade>();
+        public static List<StatUpgrade> persistentUpgrades = new List<StatUpgrade>();
 
-        public static void AddInGameUpgrade(StatUpgrade upgrade)
+        public static void Initialize()
         {
-            ingameUpgrades.Add(upgrade);
+            allUpgrades = AssetLoader.LoadAll<StatUpgrade>(ResourcePaths.StatUpgradeData).ToList();
+            allUpgrades.ForEach(upgrade => upgrade.Initialize());
+            persistentUpgrades = allUpgrades.FindAll(upgrade => upgrade.State.isPersistent);
+            ingameUpgrades = allUpgrades.FindAll(upgrade => !upgrade.State.isPersistent);
+            LoadPersistantUpgrades();
+        }
+      
+        private static void LoadPersistantUpgrades()
+        {
+            UpgradesSaveData upgradesSaveData = new UpgradesSaveData();
+            upgradesSaveData.Load();
+            upgradesSaveData.upgrades.ToList().ForEach(upgrade =>
+            {
+                if (persistentUpgrades.Find(up => up.State.name == upgrade.Key) == null) return;
+                persistentUpgrades.Find(up => up.State.name == upgrade.Key).SetLevel(upgrade.Value.level);
+                persistentUpgrades.Find(up => up.State.name == upgrade.Key).IsAvailable = upgrade.Value.isAvailable;
+            });
         }
 
-        private static StatUpgrade GetIngameUpgrade(InGameUpgradeNames name)
+        public static void SaveAllPersistantUpgrades()
         {
-            return ingameUpgrades.Find(upgrade => upgrade.Name == name);
-        }
-
-        public static int GetIngameUpgradeCost(InGameUpgradeNames name)
-        {
-            return GetIngameUpgrade(name).CurrentCost;
-        }
-
-        public static int GetIngameUpgradeEffect(InGameUpgradeNames name)
-        {
-            return GetIngameUpgrade(name).CurrentEffect;
-        }
-
-        public static bool IsIngameUpgradeAvailable(InGameUpgradeNames name)
-        {
-            return GetIngameUpgrade(name).IsAvailable;
-        }
-
-        public static void UnLockIngameUpgrade(InGameUpgradeNames name)
-        {
-            GetIngameUpgrade(name).IsAvailable = true;
-        }
-
-        public static void RegisterObserver(InGameUpgradeNames name, IUpgradeObserver observer)
-        {
-            GetIngameUpgrade(name).RegisterObserver(observer);
-        }
-
-        public static void UnregisterObserver(InGameUpgradeNames name, IUpgradeObserver observer)
-        {
-            GetIngameUpgrade(name).UnregisterObserver(observer);
-        }
-
-        public static void Upgrade(InGameUpgradeNames name)
-        {
-            GetIngameUpgrade(name).Upgrade();
-        }
-        
-        public static bool CanAffordInGameUpgrade(InGameUpgradeNames name, int currentCurrency)
-        {
-            return currentCurrency >= GetIngameUpgradeCost(name);
-        }
-
-        public static void LoadAllInGameUpgrades()
-        {
-            
-        }
-
-        public static void SaveAllInGameUpgrades()
-        {
+            UpgradesSaveData upgradesSaveData = new UpgradesSaveData();
+            persistentUpgrades.ForEach(upgrade =>
+            {
+                upgradesSaveData.upgrades.Add(upgrade.State.name, new UpgradeData
+                {
+                    level = upgrade.State.currentLevel,
+                    isAvailable = upgrade.State.isAvailable
+                });
+            });
+            upgradesSaveData.Save();
 
         }
     }

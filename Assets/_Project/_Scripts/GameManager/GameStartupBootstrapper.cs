@@ -10,6 +10,7 @@ public class GameStartupBootstrapper : MonoBehaviour
         {
             var startupManager = new GameObject("GameStartupManager");
             startupManager.AddComponent<GameStartupManager>();
+            
         }
     }
 }

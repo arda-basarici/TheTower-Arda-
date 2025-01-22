@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,6 +11,7 @@ namespace Game
         [SerializeField] private TabGroups id;
         [SerializeField] public List<TabPanel> tabPanels;
         [SerializeField] public TabPanel InitialTab;
+        [SerializeField] public GameObject panelTitle; 
         private TabPanel _currentTab;
         protected void Awake()
         {
@@ -62,6 +64,7 @@ namespace Game
             }
             _currentTab = tabPanel;
             _currentTab.Show();
+            SetPanelTitle();
         }
 
         public void Hide(TabPanel tabPanel)
@@ -106,6 +109,13 @@ namespace Game
                 }
             }
             return null;
+        }
+
+        public void SetPanelTitle()
+        {
+            if (panelTitle == null || panelTitle.GetComponent<TextMeshProUGUI>() == null) return;
+            
+            panelTitle.GetComponent<TextMeshProUGUI>().text = _currentTab.Title;
         }
     }
 }
